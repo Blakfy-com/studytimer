@@ -39,8 +39,19 @@ export default function AddTask() {
 
   return (
     <>
-      {/* Taskin Text yazisi ~Silinecek~ */}
-      <p>{isText}</p>
+      <div className={Task.tasks}>
+        <div className={Task.tasksText}>
+          <i className="fa-solid fa-check" />
+          <p>{isText}</p>
+        </div>
+        <div className={Task.task}>
+          <p>2/4</p>
+          <button>
+            <i className="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
+
       {isTask ? (
         // => This pomodoro INPUT
         <div className={Task.addTask} onClick={handleAddTask}>
