@@ -13,9 +13,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning={true}>
         <Provider store={store}>{children}</Provider>
       </body>
     </html>
   );
 }
+
+// suppressHydrationWarning={true} <= Do your research on what it is used for. !!!

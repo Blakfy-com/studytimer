@@ -4,7 +4,7 @@ import React from "react";
 import Setting from "./components/Settings/settings";
 import Timer from "./components/Timer/timer";
 
-import AddTask from "./components/Task/addTask";
+import TodoList from "./components/Task/todoList";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
 
       <div className="flex flex-col items-center">
         <Timer />
-        <AddTask />
+        <TodoList />
       </div>
     </div>
   );

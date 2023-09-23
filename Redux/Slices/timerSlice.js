@@ -8,7 +8,7 @@ export const timerSlice = createSlice({
     pomoTime: 25, // time
     shortBreak: 5, // time
     longBreak: 10, // time
-    pomoCounter: 5, // Yapilan pomodor sayisi
+    pomoCounter: 5, // Pomo Counter
     taskName: "Burasi taskin header alanidir",
   },
 

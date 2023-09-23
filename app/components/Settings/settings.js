@@ -47,7 +47,7 @@ export default function Header(props) {
 
   return (
     <div className="flex items-center justify-center">
-      <div className=" flex justify-between  w-[600px] h-20 ">
+      <div className=" flex justify-between  w-[500px] h-20 ">
         <div className="flex items-center">
           <i className="fa-solid fa-heart pr-2 text-white"></i>
           <p className="text-2xl text-white">Study Timeer</p>

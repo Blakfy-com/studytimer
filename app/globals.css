@@ -15,6 +15,6 @@ body {
 }
 
 .buttonActive {
-  background-color: purple;
-  border-radius: 5px;
+  background-color: hsla(0, 0%, 0%, 0.15);
+  border-radius: 3px;
 }

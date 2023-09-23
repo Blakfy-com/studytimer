@@ -2,21 +2,18 @@
 
 import React, { useState, useEffect } from "react";
 import TimerCss from "./timer.module.scss";
+
+//! Redux Tool Import
 import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incPomoCount } from "@/Redux/Slices/timerSlice";
 
-export default function TimerMain(props) {
+export default function TimerMain() {
   //! Dispatch
   const dispatch = useDispatch();
   //! Selector
-  const {
-    taskName,
-    pomoCounter,
-    pomoTime,
-    shortBreak,
-    longBreak,
-    activeTimer,
-  } = useSelector((state) => state.timerSetting);
+  const { taskName, pomoCounter, pomoTime } = useSelector(
+    (state) => state.timerSetting
+  );
   //! useState`s
   const [minutes, setMinutes] = useState(pomoTime);
   const [seconds, setSeconds] = useState(0);
