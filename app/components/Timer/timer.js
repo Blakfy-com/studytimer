@@ -78,11 +78,15 @@ export default function TimerMain() {
           </div>
         </div>
       </div>
+
       {/*------------------ POMODO COUNTER  ------------*/}
+
       <button className={TimerCss.level} onClick={resPomoCounter}>
         {pomoCounter}
       </button>
+
       {/*------------------ TASK NAME ------------*/}
+
       <div className={TimerCss.tasksLevel}>{taskName}</div>
     </div>
   );
