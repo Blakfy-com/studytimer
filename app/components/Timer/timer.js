@@ -4,9 +4,9 @@ import TimerStyles from "./timer.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incPomoCount } from "@/Redux/Slices/timerSlice";
 
-const START_MINUTES = "0";
-const START_SECOND = "3";
-const START_DURATION = 10;
+let START_MINUTES = "25";
+let START_SECOND = "0";
+let START_DURATION = 10;
 
 export default function TimerMain() {
   const dispatch = useDispatch();
@@ -23,26 +23,24 @@ export default function TimerMain() {
 
   const pomodoroBtn = () => {
     resetHandler();
-    setMinutes(pomoTime);
     document.body.style.backgroundColor = "";
     document.body.style.transition = "0.5s";
   };
 
   const shortBreakBtn = () => {
     resetHandler();
-    setMinutes(shortBreak);
     document.body.style.backgroundColor = "#38858A";
     document.body.style.transition = "0.5s";
   };
 
   const longBreakBtn = () => {
     resetHandler();
-    setMinutes(longBreak);
     document.body.style.backgroundColor = "#608CAB";
     document.body.style.transition = "0.5s";
   };
 
   const startHandler = () => {
+    // BURADAKI SEC VE MIN TIMERIN ISLEYISINI ETKILIYOR
     setDuration(parseInt(START_SECOND, 20) + 60 * parseInt(START_MINUTES, 10));
     // setMinutes(60 * 5);
     // setSeconds(0);
@@ -55,6 +53,7 @@ export default function TimerMain() {
     setIsRunning(false);
   };
   const resetHandler = () => {
+    // BURADAKI MIN VE SEC DUR DEGERLERINI KONTROL ET START SISTEMI ILE CAKISICAKTIR.
     setMinutes(START_MINUTES);
     setSeconds(START_SECOND);
     setIsRunning(false);
@@ -73,6 +72,7 @@ export default function TimerMain() {
 
   useEffect(() => {
     if (isRunning === true) {
+      // BURADAKI DURACTION USESTATE DEN GELIYOR !
       let timer = duration;
       var minutes, seconds;
       const interval = setInterval(function () {
