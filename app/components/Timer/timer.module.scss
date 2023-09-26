@@ -42,13 +42,14 @@ $mainWidth: 500px;
           height: 50px;
           width: 170px;
           background-color: #fff;
-          color: rgb(199, 65, 65);
           font-size: 30px;
-
           border-radius: 10px;
+          color: #ba4949;
         }
         .resetButton {
-          height: 100%;
+          width: 40px;
+          height: 50px;
+
           i {
             font-size: 40px;
           }

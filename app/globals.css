@@ -9,12 +9,12 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Roboto", sans-serif;
   background-color: #ba4949;
   font-weight: bold;
 }
 
-.buttonActive {
+.activeButton {
   background-color: hsla(0, 0%, 0%, 0.15);
   border-radius: 3px;
 }
