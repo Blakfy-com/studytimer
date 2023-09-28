@@ -1,12 +1,10 @@
 "use client";
 import React from "react";
-import Themesetting from "./ThemeSettings/themesetting"; 
-import  TimerSettings from "./TimerSettings/timersettings";
-
+import Themesetting from "./ThemeSettings/themesetting";
+import TimerSettings from "./TimerSettings/timersettings";
+import HeaderStyles from "./header.module.scss";
 
 export default function Setting() {
-  
-  
   const handleChange = (e) => {
     console.log(e.target.value);
   };
