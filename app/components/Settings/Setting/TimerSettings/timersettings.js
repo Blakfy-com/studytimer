@@ -11,39 +11,52 @@ export default function Timersettings() {
 
   const timerItem = [
     {
-      id: 1,
-      name: "pomodoro",
+      key: 1,
+      name: "Pomodoro",
       value: pomoTime,
       max: 100,
       min: 1,
+      up: "pomoUp",
+      down: "pomoDown",
     },
     {
-      id: 2,
-      name: "shortBreak",
+      key: 2,
+      name: "ShortBreak",
       value: shortBreak,
       max: 100,
       min: 1,
+      up: "shortUp",
+      down: "shortDown",
     },
     {
-      id: 3,
-      name: "longBreak",
+      key: 3,
+      name: "LongBreak",
       value: longBreak,
       max: 100,
       min: 1,
+      up: "longUp",
+      down: "longDown",
     },
   ];
 
+  const handleClick = (e) => {
+    console.log(e.target.name);
+  };
+
   return (
     <div>
-      {" "}
       <div className={HeaderStyles.timerSettting}>
         {timerItem.map((item) => (
-          <div key={item.id} className={HeaderStyles.timerItem}>
+          <div key={item.key} className={HeaderStyles.timerItem}>
             <p>{item.name}</p>
             <p>{item.value}</p>
             <div>
-              <button name="up">Up</button>
-              <button name="down">Down</button>
+              <button onClick={handleClick} name="up">
+                Up
+              </button>
+              <button onClick={handleClick} name="down">
+                Down
+              </button>
             </div>
           </div>
         ))}
