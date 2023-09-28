@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center">
       <Settings settingTask={createSettings} />
-      {viewSetting && <Setting />}
+      {viewSetting && <Setting closeSetting={createSettings} />}
       <div>
         <Timer />
         <TodoList />
