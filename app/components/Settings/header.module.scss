@@ -95,5 +95,18 @@ $inputBgColor: rgba(0, 0, 0, 0.1);
         }
       }
     }
+    .themesetting{
+
+      div {
+        button {
+          height: 30px;
+          width: 80px;
+          margin-left: 10px;
+          font-size: 14px;
+          background-color: hsla(0, 0%, 100%, 0.2);
+          border-radius: 5px;
+        }
+      }
+    }
   }
 }
