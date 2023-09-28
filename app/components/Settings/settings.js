@@ -9,7 +9,7 @@ import {
 } from "../../../Redux/Slices/timerSlice";
 import Link from "next/link";
 
-export default function Settings(settingTask) {
+export default function Settings({ settingTask }) {
   const pomoTime = useSelector((state) => state.timerSetting.pomoTime);
   const shortBreak = useSelector((state) => state.timerSetting.shortBreak);
   const longBreak = useSelector((state) => state.timerSetting.longBreak);
