@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import HeaderStyles from "../header.module.scss";
+import HeaderStyles from "../../header.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function Timersettings() {

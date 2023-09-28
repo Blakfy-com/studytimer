@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Settings from "./components/Settings/settings";
-import Setting from "./components/Settings/setting";
+import Setting from "./components/Settings/Setting/setting";
 import Timer from "./components/Timer/timer";
 
 import TodoList from "./components/Task/todoList";
