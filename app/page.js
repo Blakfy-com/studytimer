@@ -1,17 +1,20 @@
 "use client";
 
 import React from "react";
-import Setting from "./components/Settings/settings";
+import Settings from "./components/Settings/settings";
 import Timer from "./components/Timer/timer";
 
 import TodoList from "./components/Task/todoList";
 
 export default function Home() {
+  const createSettings = () => {
+    console.log("TIKLANDI LAN");
+  };
   return (
-    <div>
-      <Setting />
+    <div className="flex flex-col items-center">
+      <Settings settingTask={createSettings} />
 
-      <div className="flex flex-col items-center">
+      <div>
         <Timer />
         <TodoList />
       </div>

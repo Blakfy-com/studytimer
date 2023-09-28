@@ -4,7 +4,7 @@ import TimerStyles from "./timer.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incPomoCount } from "@/Redux/Slices/timerSlice";
 
-let START_MINUTES = "25";
+// let START_MINUTES = "25";
 let START_SECOND = "0";
 let START_DURATION = 10;
 
@@ -13,35 +13,47 @@ export default function TimerMain() {
   const { taskName, pomoCounter, pomoTime, shortBreak, longBreak } =
     useSelector((state) => state.timerSetting);
 
-  const [currentMinutes, setMinutes] = useState(START_MINUTES);
+  const [currentMinutes, setMinutes] = useState(pomoTime);
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
   const [duration, setDuration] = useState(START_DURATION);
   const [isRunning, setIsRunning] = useState(false);
+  const [isStatus, setIsStatus] = useState(pomoTime);
 
   //------------------ TIMER COUNTER ------------
 
   const pomodoroBtn = () => {
     resetHandler();
+    setMinutes(pomoTime);
+    setDuration(pomoTime * 60);
+    setIsStatus(pomoTime);
     document.body.style.backgroundColor = "";
     document.body.style.transition = "0.5s";
   };
 
   const shortBreakBtn = () => {
     resetHandler();
+    setMinutes(shortBreak);
+    setDuration(shortBreak * 60);
+    setIsStatus(shortBreak);
     document.body.style.backgroundColor = "#38858A";
     document.body.style.transition = "0.5s";
   };
 
   const longBreakBtn = () => {
     resetHandler();
+    setMinutes(longBreak);
+    setDuration(longBreak * 60);
+    setIsStatus(longBreak);
     document.body.style.backgroundColor = "#608CAB";
     document.body.style.transition = "0.5s";
   };
 
   const startHandler = () => {
     // BURADAKI SEC VE MIN TIMERIN ISLEYISINI ETKILIYOR
-    setDuration(parseInt(START_SECOND, 20) + 60 * parseInt(START_MINUTES, 10));
+    setDuration(
+      parseInt(currentSeconds, 20) + 60 * parseInt(currentMinutes, 10)
+    );
     // setMinutes(60 * 5);
     // setSeconds(0);
     setIsRunning(true);
@@ -54,7 +66,8 @@ export default function TimerMain() {
   };
   const resetHandler = () => {
     // BURADAKI MIN VE SEC DUR DEGERLERINI KONTROL ET START SISTEMI ILE CAKISICAKTIR.
-    setMinutes(START_MINUTES);
+    setMinutes(isStatus); // Burada işlev değişecek
+
     setSeconds(START_SECOND);
     setIsRunning(false);
     setIsStop(false);
