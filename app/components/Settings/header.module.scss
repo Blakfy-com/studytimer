@@ -70,6 +70,7 @@ $inputBgColor: rgba(0, 0, 0, 0.1);
     .timerSettting {
       display: flex;
       justify-content: space-evenly;
+      border-bottom: 5px solid black;
 
       .timerItem {
         width: 100px;
@@ -83,6 +84,7 @@ $inputBgColor: rgba(0, 0, 0, 0.1);
           display: flex;
           justify-content: center;
           align-items: center;
+
           button {
             background-color: rgb(0, 0, 0, 0.8);
             opacity: 0.8;
@@ -95,8 +97,7 @@ $inputBgColor: rgba(0, 0, 0, 0.1);
         }
       }
     }
-    .themesetting{
-
+    .themesetting {
       div {
         button {
           height: 30px;
