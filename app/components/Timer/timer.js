@@ -64,15 +64,6 @@ export default function TimerMain() {
     setIsStop(true);
     setIsRunning(false);
   };
-  const resetHandler = () => {
-    // BURADAKI MIN VE SEC DUR DEGERLERINI KONTROL ET START SISTEMI ILE CAKISICAKTIR.
-    setMinutes(isStatus); // Burada işlev değişecek
-
-    setSeconds(START_SECOND);
-    setIsRunning(false);
-    setIsStop(false);
-    setDuration(START_DURATION);
-  };
 
   const resumeHandler = () => {
     let newDuration =
@@ -83,14 +74,28 @@ export default function TimerMain() {
     setIsStop(false);
   };
 
+  const resetHandler = () => {
+    // BURADAKI MIN VE SEC DUR DEGERLERINI KONTROL ET START SISTEMI ILE CAKISICAKTIR.
+    setMinutes(isStatus); // Burada işlev değişecek
+
+    setSeconds(START_SECOND);
+    setIsRunning(false);
+    setIsStop(false);
+    setDuration(START_DURATION);
+  };
+
   useEffect(() => {
     if (isRunning === true) {
       // BURADAKI DURACTION USESTATE DEN GELIYOR !
+
       let timer = duration;
       var minutes, seconds;
       const interval = setInterval(function () {
-        if (--timer <= 0) {
+        if (--timer <= 58) {
           resetHandler();
+          if (isStatus === pomoTime) {
+            dispatch(incPomoCount());
+          }
         } else {
           minutes = parseInt(timer / 60, 10);
           seconds = parseInt(timer % 60, 10);
@@ -117,7 +122,6 @@ export default function TimerMain() {
       alert("TASKS CANCEL");
     }
   }
-  // ------------------ POMODO STATUS BUTTON  ------------
 
   return (
     <div className={TimerStyles.container}>
@@ -168,6 +172,8 @@ export default function TimerMain() {
                 onClick={resetHandler}
                 className="fa-solid fa-forward-step"
               />
+              {/* //! Burasi Duzenlenecek. */}
+              <i>Next</i>
             </button>
           </div>
         </div>

@@ -1,12 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import HeaderStyles from "./header.module.scss";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  setPomoTime,
-  setShortBreak,
-  setLongBreak,
-} from "../../../Redux/Slices/timerSlice";
 import Link from "next/link";
 
 export default function Settings({ settingTask }) {

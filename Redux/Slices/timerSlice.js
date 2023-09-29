@@ -5,10 +5,10 @@ import { createSlice } from "@reduxjs/toolkit";
 export const timerSlice = createSlice({
   name: "timerSetting",
   initialState: {
-    pomoTime: 25, // time
-    shortBreak: 5, // time
-    longBreak: 10, // time
-    pomoCounter: 5, // Pomo Counter
+    pomoTime: 1, // time
+    shortBreak: 1, // time
+    longBreak: 1, // time
+    pomoCounter: 1, // Pomo Counter
     taskName: "Burasi taskin header alanidir",
   },
 

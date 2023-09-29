@@ -1,9 +1,6 @@
 "use client";
 import React from "react";
 import TaskCss from "./task.module.scss";
-//! Redux Tool Import
-import { useSelector, useDispatch } from "react-redux";
-import { deleteTodo } from "@/Redux/Slices/taskSlice";
 
 export default function Task({
   text,
@@ -11,7 +8,6 @@ export default function Task({
   activeSession,
   deleteItem,
 }) {
-  const dispatch = useDispatch();
   return (
     <div className={TaskCss.tasks}>
       <div className={TaskCss.tasksText}>

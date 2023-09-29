@@ -5,8 +5,8 @@ import TimerSettings from "./TimerSettings/timersettings";
 import HeaderStyles from "../header.module.scss";
 
 export default function Setting({ closeSetting }) {
-  const handleChange = (e) => {
-    console.log(e.target.value);
+  const handleClick = () => {
+    closeSetting();
   };
   return (
     <div className={HeaderStyles.setting}>
@@ -19,6 +19,11 @@ export default function Setting({ closeSetting }) {
         </div>
         <TimerSettings />
         <Themesetting />
+        <div>
+          <button className="" onClick={handleClick}>
+            Save
+          </button>
+        </div>
       </div>
     </div>
   );

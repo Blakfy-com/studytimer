@@ -2,7 +2,11 @@
 import React from "react";
 import HeaderStyles from "../../header.module.scss";
 import { useSelector, useDispatch } from "react-redux";
-
+import {
+  setPomoTime,
+  setShortBreak,
+  setLongBreak,
+} from "@/Redux/Slices/timerSlice";
 export default function Timersettings() {
   const dispatch = useDispatch();
   const pomoTime = useSelector((state) => state.timerSetting.pomoTime);
@@ -16,8 +20,6 @@ export default function Timersettings() {
       value: pomoTime,
       max: 100,
       min: 1,
-      up: "pomoUp",
-      down: "pomoDown",
     },
     {
       key: 2,
@@ -25,8 +27,6 @@ export default function Timersettings() {
       value: shortBreak,
       max: 100,
       min: 1,
-      up: "shortUp",
-      down: "shortDown",
     },
     {
       key: 3,
@@ -34,13 +34,24 @@ export default function Timersettings() {
       value: longBreak,
       max: 100,
       min: 1,
-      up: "longUp",
-      down: "longDown",
     },
   ];
 
-  const handleClick = (e) => {
-    console.log(e.target.name);
+  const handleChange = (e) => {
+    switch (e.target.name) {
+      case "Pomodoro":
+        dispatch(setPomoTime(e.target.value));
+        break;
+      case "ShortBreak":
+        dispatch(setShortBreak(e.target.value));
+        break;
+      case "LongBreak":
+        dispatch(setLongBreak(e.target.value));
+        break;
+      default:
+        console.log("error");
+        break;
+    }
   };
 
   return (
@@ -49,15 +60,15 @@ export default function Timersettings() {
         {timerItem.map((item) => (
           <div key={item.key} className={HeaderStyles.timerItem}>
             <p>{item.name}</p>
-            <p>{item.value}</p>
-            <div>
-              <button onClick={handleClick} name="up">
-                Up
-              </button>
-              <button onClick={handleClick} name="down">
-                Down
-              </button>
-            </div>
+            <input
+              name={item.name}
+              type="number"
+              min={item.min}
+              max={item.max}
+              step="1" // Sayinin + 1 artacagini belirler.
+              onChange={handleChange}
+              defaultValue={item.value}
+            />
           </div>
         ))}
       </div>

@@ -73,39 +73,47 @@ $inputBgColor: rgba(0, 0, 0, 0.1);
       border-bottom: 5px solid black;
 
       .timerItem {
-        width: 100px;
-        margin: 20px;
+        margin: 10px;
+        width: 120px;
         align-items: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
 
-        div {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          button {
-            background-color: rgb(0, 0, 0, 0.8);
-            opacity: 0.8;
-            border-radius: 3px;
-            color: $whiteColor;
-            height: 30px;
-            width: 50px;
-            margin: 10px;
-          }
+        p {
+          width: 100%;
+        }
+        input {
+          background-color: rgb(239, 239, 239, 1);
+          outline: none;
+          opacity: 0.9;
+          border-radius: 3px;
+          height: 40px;
+          width: 100%;
+          text-align: left;
+          padding-left: 10px;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          background-color: blue;
+          width: 100%;
+          height: 30px;
+          background-color: red;
+        }
+        input[type="number"] {
+          font-size: 18px;
         }
       }
-    }
-    .themesetting {
-      div {
-        button {
-          height: 30px;
-          width: 80px;
-          margin-left: 10px;
-          font-size: 14px;
-          background-color: hsla(0, 0%, 100%, 0.2);
-          border-radius: 5px;
+      .themesetting {
+        div {
+          button {
+            height: 30px;
+            width: 80px;
+            margin-left: 10px;
+            font-size: 14px;
+            background-color: hsla(0, 0%, 100%, 0.2);
+            border-radius: 5px;
+          }
         }
       }
     }

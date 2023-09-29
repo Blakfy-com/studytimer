@@ -8,7 +8,7 @@ import Timer from "./components/Timer/timer";
 import TodoList from "./components/Task/todoList";
 
 export default function Home() {
-  const [viewSetting, setViewSetting] = useState(false);
+  const [viewSetting, setViewSetting] = useState(true);
   const createSettings = () => {
     setViewSetting(!viewSetting);
   };
