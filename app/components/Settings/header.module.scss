@@ -1,6 +1,8 @@
 $whiteColor: white;
 $lineColor: rgba(0, 0, 0, 0.3);
 $inputBgColor: rgba(0, 0, 0, 0.1);
+$buttonColorBlack: rgba(10, 10, 10, 0.9);
+$buttonColorBlackHover: rgba(0, 0, 0, 0.8);
 
 .settings {
   width: 500px;
@@ -115,6 +117,31 @@ $inputBgColor: rgba(0, 0, 0, 0.1);
             border-radius: 5px;
           }
         }
+      }
+    }
+    .modal {
+      height: 50px;
+      display: flex;
+      justify-content: flex-end;
+      margin: 10px;
+      button {
+        margin: 0 20px;
+        width: 100px;
+        height: 50px;
+      }
+      button:nth-child(1) {
+      }
+      button:nth-child(2) {
+        background-color: $buttonColorBlack;
+        border-radius: 5px;
+        color: $whiteColor;
+      }
+      button:nth-child(1):hover,
+      button:nth-child(2):hover {
+        opacity: 0.8;
+        cursor: crosshair;
+        font-size: 17px;
+        transition: 0.3s;
       }
     }
   }

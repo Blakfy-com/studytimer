@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import TimerStyles from "./timer.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incPomoCount } from "@/Redux/Slices/timerSlice";
+import TimerButton from "./timerButton";
+
+import Image from "next/image";
 
 // let START_MINUTES = "25";
 let START_SECOND = "0";
@@ -128,9 +131,14 @@ export default function TimerMain() {
       <div className={TimerStyles.timer}>
         {/*------------------ POMODORO STATUS BUTTON ------------*/}
         <div className={TimerStyles.button}>
-          <button onClick={pomodoroBtn}>Pomodoro</button>
+          {/* <button onClick={pomodoroBtn}>Pomodoro</button>
           <button onClick={shortBreakBtn}>Short</button>
-          <button onClick={longBreakBtn}>Long</button>
+          <button onClick={longBreakBtn}>Long</button> */}
+          <TimerButton
+            pomodoroBtn={pomodoroBtn}
+            shortBreakBtn={shortBreakBtn}
+            longBreakBtn={longBreakBtn}
+          />
         </div>
 
         {/*------------------ TIMER ------------*/}
@@ -167,13 +175,14 @@ export default function TimerMain() {
               onClick={resetHandler}
               name="nextBtn"
               className={TimerStyles.resetButton}>
-              <i
-                // onClick={(e) => e.target.parentNode.click()}
+              <Image
+                src="/next-verify.png"
+                width={50}
+                height={50}
+                alt="reset-icon"
                 onClick={resetHandler}
-                className="fa-solid fa-forward-step"
+                name="nextBtn"
               />
-              {/* //! Burasi Duzenlenecek. */}
-              <i>Next</i>
             </button>
           </div>
         </div>

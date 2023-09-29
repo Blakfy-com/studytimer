@@ -22,6 +22,7 @@ $mainWidth: 500px;
         width: 100%;
         height: 30px;
         margin: 10px;
+        font-size: 15px;
       }
     }
     .time {
@@ -47,12 +48,8 @@ $mainWidth: 500px;
           color: #ba4949;
         }
         .resetButton {
-          width: 40px;
-          height: 50px;
-
-          i {
-            font-size: 40px;
-          }
+          width: 70px;
+          height: 60px;
         }
       }
     }

@@ -18,3 +18,27 @@ body {
   background-color: hsla(0, 0%, 0%, 0.15);
   border-radius: 3px;
 }
+.activeButton:active {
+  opacity: 0.8;
+  padding-top: 5px;
+  transition: all 0.2s ease-in 0s;
+}
+
+/* styles.css */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Sayfa arkaplanını karartmak için bir arka plan ekliyoruz */
+  z-index: 9999; /* Üstte olmasını sağlamak için bir z-index ekliyoruz */
+}

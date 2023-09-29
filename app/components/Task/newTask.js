@@ -4,6 +4,7 @@ import Task from "./task.module.scss";
 //! Redux Tool Import
 import { useSelector, useDispatch } from "react-redux";
 import { addTodo } from "@/Redux/Slices/taskSlice";
+import Image from "next/image";
 
 export default function NewTask({ cancelTask, saveTask }) {
   //! useSelector and useDispatch
@@ -13,7 +14,7 @@ export default function NewTask({ cancelTask, saveTask }) {
   const [isText, setIsText] = useState("");
 
   const handleArrow = (e) => {
-    switch (e.target.value) {
+    switch (e.target.name) {
       case "up":
         count < 99 ? setCount(count + 1) : count;
         break;
@@ -43,12 +44,15 @@ export default function NewTask({ cancelTask, saveTask }) {
       {/* This pomodoro INPUT */}
 
       <div className={Task.inputValue}>
+        {/* 35 karaktere kadar sınırlandırılacaktır. */}
         <input
+          className={Task.newItemText}
           id="newItemText"
           value={isText}
           onChange={handleChange}
           type="text"
-          placeholder="What are you working on?"
+          maxLength={30}
+          placeholder="What are you working on ?"
         />
       </div>
 
@@ -59,21 +63,28 @@ export default function NewTask({ cancelTask, saveTask }) {
         </div>
 
         <div className={Task.values}>
-          <div>{count}</div>
-
+          <div className={Task.number}>{count}</div>
           {/* UP ARROW */}
-          <button value="up" onClick={handleArrow}>
-            <i
-              className="fa-solid fa-up-long"
-              onClick={(e) => e.target.parentNode.click()}
+          <button name="up" onClick={handleArrow}>
+            <Image
+              src="/up-arrow.png"
+              width={20}
+              height={20}
+              alt="uparrow"
+              name="up"
+              onClick={handleArrow}
             />
           </button>
 
           {/*  DOWN ARROW */}
-          <button value="down" onClick={handleArrow}>
-            <i
-              className="fa-solid fa-down-long"
-              onClick={(e) => e.target.parentNode.click()}
+          <button name="down" onClick={handleArrow}>
+            <Image
+              src="/down-arrow.png"
+              width={20}
+              height={20}
+              alt="downarrow"
+              name="down"
+              onClick={handleArrow}
             />
           </button>
         </div>
