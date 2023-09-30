@@ -1,4 +1,8 @@
-"use client";
+"use strict";
+
+// Bu kısmı uygulamanızın gereksinimlerine uygun bir şekilde ayarlayın
+// Örnek olarak, burada Redux ve local storage kullanımını varsayıyoruz.
+import { createSlice } from "@reduxjs/toolkit";
 
 const saveStateToLocalStorage = (state) => {
   try {
@@ -9,12 +13,11 @@ const saveStateToLocalStorage = (state) => {
   }
 };
 
-// Redux slice içerisinde, initialState'i yükleme işlevini çağırmadan önce localStorage'dan alınan veri ile değiştirin.
 const loadStateFromLocalStorage = () => {
   try {
     const serializedState = localStorage.getItem("timerSetting");
     if (serializedState === null) {
-      return undefined; // Eğer kayıtlı veri yoksa, undefined döndürün
+      return undefined;
     }
     return JSON.parse(serializedState);
   } catch (err) {
@@ -22,7 +25,6 @@ const loadStateFromLocalStorage = () => {
     return undefined;
   }
 };
-import { createSlice } from "@reduxjs/toolkit";
 
 // Local Storage'dan initialState'i al
 const persistedState = loadStateFromLocalStorage();
@@ -30,47 +32,60 @@ const persistedState = loadStateFromLocalStorage();
 export const timerSlice = createSlice({
   name: "timerSetting",
   initialState: persistedState || {
-    pomoTime: 1, // time
-    shortBreak: 1, // time
-    longBreak: 1, // time
-    pomoCounter: 1, // Pomo Counter
-    taskName: "Burasi taskin header alanidir",
+    timerList: [
+      { key: 1, name: "Pomodoro", value: 1, max: 100, min: 1 },
+      { key: 2, name: "ShortBreak", value: 1, max: 100, min: 1 },
+      { key: 3, name: "LongBreak", value: 1, max: 100, min: 1 },
+      { key: 4, name: "PomoCounter", value: 1, max: 100, min: 1 },
+      {
+        key: 5,
+        name: "TaskName",
+        value: "Burasi taskin header alanidir",
+        max: 100,
+        min: 1,
+      },
+      { key: 6, name: "ActiveTimer", value: 1, max: 100, min: 1 },
+    ],
   },
 
   reducers: {
     setPomoTime: (state, action) => {
-      state.pomoTime = action.payload;
+      state.timerList[0].value = action.payload;
       saveStateToLocalStorage(state);
     },
     setShortBreak: (state, action) => {
-      state.shortBreak = action.payload;
+      state.timerList[1].value = action.payload;
       saveStateToLocalStorage(state);
     },
     setLongBreak: (state, action) => {
-      state.longBreak = action.payload;
+      state.timerList[2].value = action.payload;
+      saveStateToLocalStorage(state);
+    },
+    setPomoCount: (state, action) => {
+      state.timerList[3].value = action.payload;
+      saveStateToLocalStorage(state);
+    },
+    setTaskName: (state, action) => {
+      state.timerList[4].value = action.payload;
       saveStateToLocalStorage(state);
     },
     setActiveTimer: (state, action) => {
-      state.activeTimer = action.payload;
+      state.timerList[5].value = action.payload;
       saveStateToLocalStorage(state);
     },
-    incPomoCount: (state) => {
-      state.pomoCounter += 1;
+    resetPomoCount: (state, action) => {
+      state.timerList[3].value = 1;
       saveStateToLocalStorage(state);
     },
-    resetPomoCount: (state) => {
-      state.pomoCounter = 1;
-      saveStateToLocalStorage(state);
-    },
-    taskName: (state, aciton) => {
-      state.taskName = action.payload;
+    incPomoCount: (state, action) => {
+      state.timerList[3].value = state.timerList[3].value + 1;
       saveStateToLocalStorage(state);
     },
   },
 });
 
 export const {
-  taskName,
+  setTaskName,
   resetPomoCount,
   incPomoCount,
   setPomoTime,
@@ -78,4 +93,5 @@ export const {
   setLongBreak,
   setActiveTimer,
 } = timerSlice.actions;
+
 export default timerSlice.reducer;

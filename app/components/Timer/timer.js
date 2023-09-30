@@ -7,47 +7,59 @@ import TimerButton from "./timerButton";
 
 import Image from "next/image";
 
-// let START_MINUTES = "25";
+let START_MINUTES = "25";
 let START_SECOND = "0";
 let START_DURATION = 10;
 
 export default function TimerMain() {
   const dispatch = useDispatch();
-  const { taskName, pomoCounter, pomoTime, shortBreak, longBreak } =
-    useSelector((state) => state.timerSetting);
+  const { timerList } = useSelector((state) => state.timerSetting);
 
-  const [currentMinutes, setMinutes] = useState(pomoTime);
+  const timertLists = timerList.map((item) => {
+    return {
+      key: item.key,
+      name: item.name,
+      value: item.value,
+      max: item.max,
+      min: item.min,
+    };
+  });
+  const pomodoro = timertLists[0];
+  const shortBreak = timertLists[1];
+  const longBreak = timertLists[2];
+
+  const [currentMinutes, setMinutes] = useState(pomodoro.value);
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
   const [duration, setDuration] = useState(START_DURATION);
   const [isRunning, setIsRunning] = useState(false);
-  const [isStatus, setIsStatus] = useState(pomoTime);
+  const [isStatus, setIsStatus] = useState(START_MINUTES);
 
   //------------------ TIMER COUNTER ------------
 
   const pomodoroBtn = () => {
     resetHandler();
-    setMinutes(pomoTime);
-    setDuration(pomoTime * 60);
-    setIsStatus(pomoTime);
+    setMinutes(START_MINUTES);
+    setDuration(START_MINUTES * 60);
+    setIsStatus(START_MINUTES);
     document.body.style.backgroundColor = "";
     document.body.style.transition = "0.5s";
   };
 
   const shortBreakBtn = () => {
     resetHandler();
-    setMinutes(shortBreak);
-    setDuration(shortBreak * 60);
-    setIsStatus(shortBreak);
+    setMinutes(START_MINUTES);
+    setDuration(START_MINUTES * 60);
+    setIsStatus(START_MINUTES);
     document.body.style.backgroundColor = "#38858A";
     document.body.style.transition = "0.5s";
   };
 
   const longBreakBtn = () => {
     resetHandler();
-    setMinutes(longBreak);
-    setDuration(longBreak * 60);
-    setIsStatus(longBreak);
+    setMinutes(START_MINUTES);
+    setDuration(START_MINUTES * 60);
+    setIsStatus(START_MINUTES);
     document.body.style.backgroundColor = "#608CAB";
     document.body.style.transition = "0.5s";
   };
@@ -96,7 +108,7 @@ export default function TimerMain() {
       const interval = setInterval(function () {
         if (--timer <= 58) {
           resetHandler();
-          if (isStatus === pomoTime) {
+          if (isStatus === START_MINUTES) {
             dispatch(incPomoCount());
           }
         } else {
@@ -191,12 +203,12 @@ export default function TimerMain() {
       {/*------------------ POMODO COUNTER  ------------*/}
 
       <button className={TimerStyles.level} onClick={resetPomodoroCounter}>
-        {pomoCounter}
+        Counter Number 5
       </button>
 
       {/*------------------ TASK NAME ------------*/}
 
-      <div className={TimerStyles.tasksLevel}>{taskName}</div>
+      <div className={TimerStyles.tasksLevel}>TASK NAME</div>
     </div>
   );
 }

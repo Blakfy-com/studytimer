@@ -31,7 +31,14 @@ const persistedState = loadStateFromLocalStorage();
 export const taskSlice = createSlice({
   name: "pomodoroTodoList",
   initialState: persistedState || {
-    todoLists: [],
+    todoLists: [
+      {
+        key: 1,
+        text: "Pomodoro",
+        currentSession: 1,
+        totalSessions: 4,
+      },
+    ],
   },
 
   reducers: {

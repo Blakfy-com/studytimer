@@ -20,11 +20,11 @@ export default function Home() {
     setIsLoading(false);
     setTimeout(() => {
       setIsLoading(true);
-    }, 100);
+    }, 1000);
   }, []);
 
   return (
-    <>
+    <div>
       {isLoading ? (
         <div className="flex flex-col items-center">
           <Settings settingTask={createSettings} />
@@ -37,6 +37,6 @@ export default function Home() {
       ) : (
         <Loading />
       )}
-    </>
+    </div>
   );
 }
