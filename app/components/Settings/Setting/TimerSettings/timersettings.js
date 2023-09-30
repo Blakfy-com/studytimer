@@ -9,9 +9,20 @@ import {
 } from "@/Redux/Slices/timerSlice";
 export default function Timersettings() {
   const dispatch = useDispatch();
-  const pomoTime = useSelector((state) => state.timerSetting.pomoTime);
-  const shortBreak = useSelector((state) => state.timerSetting.shortBreak);
-  const longBreak = useSelector((state) => state.timerSetting.longBreak);
+  const { timerList } = useSelector((state) => state.timerSetting);
+  const timertLists = timerList.map((item) => {
+    return {
+      key: item.key,
+      name: item.name,
+      value: item.value,
+      max: item.max,
+      min: item.min,
+    };
+  });
+
+  const pomoTime = timertLists[0].value;
+  const shortBreak = timertLists[1].value;
+  const longBreak = timertLists[2].value;
 
   const timerItem = [
     {

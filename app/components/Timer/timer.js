@@ -7,7 +7,7 @@ import TimerButton from "./timerButton";
 
 import Image from "next/image";
 
-let START_MINUTES = "25";
+// let START_MINUTES = "25";
 let START_SECOND = "0";
 let START_DURATION = 10;
 
@@ -24,42 +24,42 @@ export default function TimerMain() {
       min: item.min,
     };
   });
-  const pomodoro = timertLists[0];
-  const shortBreak = timertLists[1];
-  const longBreak = timertLists[2];
 
-  const [currentMinutes, setMinutes] = useState(pomodoro.value);
+  const [currentMinutes, setMinutes] = useState(timertLists[0].value);
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
-  const [duration, setDuration] = useState(START_DURATION);
+  const [duration, setDuration] = useState(timertLists[0].value);
   const [isRunning, setIsRunning] = useState(false);
-  const [isStatus, setIsStatus] = useState(START_MINUTES);
+  const [isStatus, setIsStatus] = useState(timertLists[0].value);
 
   //------------------ TIMER COUNTER ------------
 
   const pomodoroBtn = () => {
-    resetHandler();
-    setMinutes(START_MINUTES);
-    setDuration(START_MINUTES * 60);
-    setIsStatus(START_MINUTES);
+    const newItem = timerList.find((item) => item.name === "Pomodoro");
+    resetHandler(newItem.value);
+    setMinutes(newItem.value);
+    setDuration(newItem.value * 60);
+    setIsStatus(newItem.value);
     document.body.style.backgroundColor = "";
     document.body.style.transition = "0.5s";
   };
 
   const shortBreakBtn = () => {
-    resetHandler();
-    setMinutes(START_MINUTES);
-    setDuration(START_MINUTES * 60);
-    setIsStatus(START_MINUTES);
+    const newItem = timerList.find((item) => item.name === "ShortBreak");
+    resetHandler(newItem.value);
+    setMinutes(newItem.value);
+    setDuration(newItem.value * 60);
+    setIsStatus(newItem.value);
     document.body.style.backgroundColor = "#38858A";
     document.body.style.transition = "0.5s";
   };
 
   const longBreakBtn = () => {
-    resetHandler();
-    setMinutes(START_MINUTES);
-    setDuration(START_MINUTES * 60);
-    setIsStatus(START_MINUTES);
+    const newItem = timerList.find((item) => item.name === "LongBreak");
+    resetHandler(newItem.value);
+    setMinutes(newItem.value);
+    setDuration(newItem.value * 60);
+    setIsStatus(newItem.value);
     document.body.style.backgroundColor = "#608CAB";
     document.body.style.transition = "0.5s";
   };
@@ -106,9 +106,9 @@ export default function TimerMain() {
       let timer = duration;
       var minutes, seconds;
       const interval = setInterval(function () {
-        if (--timer <= 58) {
+        if (--timer <= 0) {
           resetHandler();
-          if (isStatus === START_MINUTES) {
+          if (isStatus === currentMinutes) {
             dispatch(incPomoCount());
           }
         } else {
@@ -128,10 +128,12 @@ export default function TimerMain() {
 
   // ------------------ POMODO COUNTER RESET  ------------
   function resetPomodoroCounter() {
-    let text = "Tasks Restart ?";
+    let text = "ALL TASK AND LOCAL STORAGE CLEAR ?";
     // confirm() alert method.
     if (confirm(text) === true) {
       dispatch(resetPomoCount());
+      localStorage.clear();
+      window.location.reload();
       alert("Okey");
     } else {
       alert("TASKS CANCEL");
@@ -203,12 +205,12 @@ export default function TimerMain() {
       {/*------------------ POMODO COUNTER  ------------*/}
 
       <button className={TimerStyles.level} onClick={resetPomodoroCounter}>
-        Counter Number 5
+        {timertLists[3].value}
       </button>
 
       {/*------------------ TASK NAME ------------*/}
 
-      <div className={TimerStyles.tasksLevel}>TASK NAME</div>
+      <div className={TimerStyles.tasksLevel}>THIS IS TASK NAME</div>
     </div>
   );
 }
