@@ -26,11 +26,26 @@ export const dataSlice = createSlice({
     addData: (state, action) => {
       state.data.push(action.payload);
     },
+
+    incPomoCount: (state, action) => {
+      state.data = state.data.map((dataItem) => {
+        if (dataItem.key === action.payload) {
+          return {
+            ...dataItem,
+            currentSession: dataItem.currentSession + 1,
+          };
+        }
+        return dataItem;
+      });
+    },
+
     deleteData: (state, action) => {
       state.data = state.data.filter(
         (dataItem) => dataItem.key !== action.payload
       );
     },
+
+    // UPDATE TASK todoList.js icerisine eklenmedi. Eklenecek.
     updateData: (state, action) => {
       state.data = state.data.map((dataItem) => {
         if (dataItem.id === action.payload.id) {
@@ -43,7 +58,8 @@ export const dataSlice = createSlice({
 });
 
 // Eylemleri dışa aktarın
-export const { addData, deleteData, updateData } = dataSlice.actions;
+export const { addData, incPomoCount, deleteData, updateData } =
+  dataSlice.actions;
 
 // Reducer'ı dışa aktarın
 export default dataSlice.reducer;

@@ -1,19 +1,14 @@
-"use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NewTask from "./newTask";
 import Task from "./task";
 import AddTask from "./addTask";
-
-//! Redux Tool Import
 import { useSelector, useDispatch } from "react-redux";
-import { deleteData } from "@/Redux/Slices/taskSlice";
+import { deleteData, incPomoCount } from "@/Redux/Slices/taskSlice";
 
 export default function TodoList() {
-  //! useSelector and useDispatch
-  const { data } = useSelector((state) => state.pomodoroTodoList);
   const dispatch = useDispatch();
-
-  //! useState`s
+  const { data } = useSelector((state) => state.dataAnalysis);
+  const { settings } = useSelector((state) => state.timerSetting);
   const [isView, setIsView] = useState(false);
 
   const openNewTask = () => {

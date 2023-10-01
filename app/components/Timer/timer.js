@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TimerStyles from "./timer.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incrementPomoCount } from "@/Redux/Slices/timerSlice";
+import { incPomoCount } from "@/Redux/Slices/taskSlice";
 import TimerButton from "./timerButton";
 import NextSvg from "../icons/next/next";
 
@@ -11,6 +12,7 @@ const START_SECOND = 0;
 export default function TimerMain() {
   const dispatch = useDispatch();
   const { settings } = useSelector((state) => state.timerSetting);
+  const { data } = useSelector((state) => state.dataAnalysis);
 
   // State'leri tanımlayın ve başlangıç değerleri atayın
   const [currentMinutes, setMinutes] = useState(settings.pomodoroTime);
@@ -71,7 +73,7 @@ export default function TimerMain() {
     if (isRunning) {
       let timer = duration;
       const interval = setInterval(() => {
-        if (--timer <= 1496) {
+        if (--timer <= 1497) {
           resetTimer();
           dispatch(incrementPomoCount());
         } else {

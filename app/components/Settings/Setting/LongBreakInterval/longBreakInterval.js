@@ -8,10 +8,12 @@ export default function LongBreakInterval() {
   const { settings } = useSelector((state) => state.timerSetting);
 
   // TimerList öğelerini formatlayarak kullanımı kolaylaştırın
-  const activeTimer = settings.activeTimer; // timerSlice ActiveTimer value degeri
+  const activeTimer = settings.longBreakInterval; // timerSlice ActiveTimer value degeri
   const onChange = (e) => {
     const newItem = e.target.value;
-    dispatch(setTimerSettings({ settingName: "activeTimer", value: newItem }));
+    dispatch(
+      setTimerSettings({ settingName: "longBreakInterval", value: newItem })
+    );
   };
 
   return (

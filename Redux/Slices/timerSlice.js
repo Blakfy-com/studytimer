@@ -6,10 +6,10 @@ export const timerSlice = createSlice({
     settings: {
       pomodoroTime: 25,
       shortBreakTime: 5,
-      longBreakTime: 15,
+      longBreakTime: 10,
       pomoCount: 1,
       activeTask: "",
-      activeTimer: 2,
+      longBreakInterval: 4,
     },
   },
   reducers: {

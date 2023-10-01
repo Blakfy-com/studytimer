@@ -13,7 +13,7 @@ const persistedState = loadStateFromLocalStorage();
 
 const reducer = {
   timerSetting: timerReducer,
-  pomodoroTodoList: taskSlice,
+  dataAnalysis: taskSlice,
 };
 
 const store = configureStore({
