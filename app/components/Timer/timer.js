@@ -1,136 +1,109 @@
-"use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import TimerStyles from "./timer.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incPomoCount } from "@/Redux/Slices/timerSlice";
+import { increment } from "@/Redux/Slices/taskSlice";
 import TimerButton from "./timerButton";
+import NextSvg from "../icons/next/next";
 
-import Image from "next/image";
-
-// let START_MINUTES = "25";
-let START_SECOND = "0";
-let START_DURATION = 10;
+// Sabitler
+const START_SECOND = 0;
+const START_DURATION = 10;
 
 export default function TimerMain() {
   const dispatch = useDispatch();
   const { timerList } = useSelector((state) => state.timerSetting);
 
-  const timertLists = timerList.map((item) => {
-    return {
-      key: item.key,
-      name: item.name,
-      value: item.value,
-      max: item.max,
-      min: item.min,
-    };
-  });
+  // TimerList öğelerini formatlayarak kullanımı kolaylaştırın
+  const formattedTimerList = timerList.map((item) => ({
+    key: item.key,
+    name: item.name,
+    value: item.value,
+    max: item.max,
+    min: item.min,
+  }));
 
-  const [currentMinutes, setMinutes] = useState(timertLists[0].value);
+  // State'leri tanımlayın ve başlangıç değerleri atayın
+  const [currentMinutes, setMinutes] = useState(formattedTimerList[0].value);
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
-  const [duration, setDuration] = useState(timertLists[0].value);
+  const [duration, setDuration] = useState(formattedTimerList[0].value * 60);
   const [isRunning, setIsRunning] = useState(false);
-  const [isStatus, setIsStatus] = useState(timertLists[0].value);
+  const [isStatus, setIsStatus] = useState(formattedTimerList[0].value);
 
-  //------------------ TIMER COUNTER ------------
+  // Timer ayarlarını güncelleyen fonksiyon
+  const setTimer = (item) => {
+    resetHandler(item.value);
+    setMinutes(item.value);
+    setDuration(item.value * 60);
+    setIsStatus(item.value);
 
-  const pomodoroBtn = () => {
-    const newItem = timerList.find((item) => item.name === "Pomodoro");
-    resetHandler(newItem.value);
-    setMinutes(newItem.value);
-    setDuration(newItem.value * 60);
-    setIsStatus(newItem.value);
-    document.body.style.backgroundColor = "";
+    // Arka plan rengini ayarlayın
+    const backgroundColor = {
+      Pomodoro: "",
+      ShortBreak: "#38858A",
+      LongBreak: "#608CAB",
+    };
+
+    document.body.style.backgroundColor = backgroundColor[item.name];
     document.body.style.transition = "0.5s";
   };
 
-  const shortBreakBtn = () => {
-    const newItem = timerList.find((item) => item.name === "ShortBreak");
-    resetHandler(newItem.value);
-    setMinutes(newItem.value);
-    setDuration(newItem.value * 60);
-    setIsStatus(newItem.value);
-    document.body.style.backgroundColor = "#38858A";
-    document.body.style.transition = "0.5s";
+  // Pomodoro, ShortBreak ve LongBreak butonlarını oluşturan fonksiyonlar
+  const createTimerButtonHandler = (timerName) => () => {
+    const newItem = formattedTimerList.find((item) => item.name === timerName);
+    setTimer(newItem);
   };
 
-  const longBreakBtn = () => {
-    const newItem = timerList.find((item) => item.name === "LongBreak");
-    resetHandler(newItem.value);
-    setMinutes(newItem.value);
-    setDuration(newItem.value * 60);
-    setIsStatus(newItem.value);
-    document.body.style.backgroundColor = "#608CAB";
-    document.body.style.transition = "0.5s";
-  };
-
+  // Start, Stop, Resume ve Reset işlemlerini yöneten fonksiyonlar
   const startHandler = () => {
-    // BURADAKI SEC VE MIN TIMERIN ISLEYISINI ETKILIYOR
-    setDuration(
-      parseInt(currentSeconds, 20) + 60 * parseInt(currentMinutes, 10)
-    );
-    // setMinutes(60 * 5);
-    // setSeconds(0);
+    setDuration(currentSeconds + 60 * currentMinutes);
     setIsRunning(true);
   };
 
   const stopHandler = () => {
-    // stop timer
     setIsStop(true);
     setIsRunning(false);
   };
 
   const resumeHandler = () => {
-    let newDuration =
-      parseInt(currentMinutes, 10) * 60 + parseInt(currentSeconds, 10);
+    let newDuration = currentMinutes * 60 + currentSeconds;
     setDuration(newDuration);
-
     setIsRunning(true);
     setIsStop(false);
   };
 
   const resetHandler = () => {
-    // BURADAKI MIN VE SEC DUR DEGERLERINI KONTROL ET START SISTEMI ILE CAKISICAKTIR.
-    setMinutes(isStatus); // Burada işlev değişecek
-
+    setMinutes(isStatus);
     setSeconds(START_SECOND);
     setIsRunning(false);
     setIsStop(false);
-    setDuration(START_DURATION);
+    setDuration(START_DURATION * 60);
   };
 
+  // Timer'ı çalıştıran ve durduran useEffect
   useEffect(() => {
-    if (isRunning === true) {
-      // BURADAKI DURACTION USESTATE DEN GELIYOR !
-
+    if (isRunning) {
       let timer = duration;
-      var minutes, seconds;
-      const interval = setInterval(function () {
-        if (--timer <= 0) {
+      const interval = setInterval(() => {
+        if (--timer <= 58) {
           resetHandler();
-          if (isStatus === currentMinutes) {
-            dispatch(incPomoCount());
-          }
+          dispatch(incPomoCount());
         } else {
-          minutes = parseInt(timer / 60, 10);
-          seconds = parseInt(timer % 60, 10);
-
-          minutes = minutes < 10 ? "0" + minutes : minutes;
-          seconds = seconds < 10 ? "0" + seconds : seconds;
-
-          setMinutes(minutes);
-          setSeconds(seconds);
+          const minutes = parseInt(timer / 60, 10);
+          const seconds = parseInt(timer % 60, 10);
+          setMinutes(minutes < 10 ? "0" + minutes : minutes);
+          setSeconds(seconds < 10 ? "0" + seconds : seconds);
         }
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [duration, isRunning]);
+  }, [duration, isRunning, currentMinutes, isStatus, dispatch]);
 
-  // ------------------ POMODO COUNTER RESET  ------------
-  function resetPomodoroCounter() {
-    let text = "ALL TASK AND LOCAL STORAGE CLEAR ?";
-    // confirm() alert method.
-    if (confirm(text) === true) {
+  // Pomodoro sayacını sıfırlayan fonksiyon
+  const resetPomodoroCounter = () => {
+    const text = "ALL TASK AND LOCAL STORAGE CLEAR ?";
+    if (window.confirm(text)) {
       dispatch(resetPomoCount());
       localStorage.clear();
       window.location.reload();
@@ -138,30 +111,22 @@ export default function TimerMain() {
     } else {
       alert("TASKS CANCEL");
     }
-  }
+  };
 
   return (
     <div className={TimerStyles.container}>
       <div className={TimerStyles.timer}>
-        {/*------------------ POMODORO STATUS BUTTON ------------*/}
         <div className={TimerStyles.button}>
-          {/* <button onClick={pomodoroBtn}>Pomodoro</button>
-          <button onClick={shortBreakBtn}>Short</button>
-          <button onClick={longBreakBtn}>Long</button> */}
           <TimerButton
-            pomodoroBtn={pomodoroBtn}
-            shortBreakBtn={shortBreakBtn}
-            longBreakBtn={longBreakBtn}
+            pomodoroBtn={createTimerButtonHandler("Pomodoro")}
+            shortBreakBtn={createTimerButtonHandler("ShortBreak")}
+            longBreakBtn={createTimerButtonHandler("LongBreak")}
           />
         </div>
-
-        {/*------------------ TIMER ------------*/}
         <div className={TimerStyles.time}>
           {String(currentMinutes).padStart(2, "0")}:
           {String(currentSeconds).padStart(2, "0")}
         </div>
-
-        {/*------------------ START PAUSE RESET BUTTON ------------*/}
         <div className={TimerStyles.start}>
           <div className={TimerStyles.startResetButton}>
             {!isRunning && !isStop && (
@@ -176,7 +141,6 @@ export default function TimerMain() {
                 PAUSE
               </button>
             )}
-
             {isStop && (
               <button
                 className={TimerStyles.startButton}
@@ -184,12 +148,8 @@ export default function TimerMain() {
                 START
               </button>
             )}
-            {/* >| NEXT Button */}
-            <button
-              onClick={resetHandler}
-              name="nextBtn"
-              className={TimerStyles.resetButton}>
-              <Image
+            <button name="nextBtn" className={TimerStyles.resetButton}>
+              <NextSvg
                 src="/next-verify.png"
                 width={50}
                 height={50}
@@ -201,15 +161,9 @@ export default function TimerMain() {
           </div>
         </div>
       </div>
-
-      {/*------------------ POMODO COUNTER  ------------*/}
-
       <button className={TimerStyles.level} onClick={resetPomodoroCounter}>
-        {timertLists[3].value}
+        {formattedTimerList[3].value}
       </button>
-
-      {/*------------------ TASK NAME ------------*/}
-
       <div className={TimerStyles.tasksLevel}>THIS IS TASK NAME</div>
     </div>
   );

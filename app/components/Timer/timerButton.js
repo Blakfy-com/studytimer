@@ -8,9 +8,19 @@ export default function TimerButton({
   const [activeButton, setActiveButton] = useState(101);
 
   const buttonLists = [
-    { key: 101, clickName: pomodoroBtn, name: "Pomodoro" },
-    { key: 202, clickName: shortBreakBtn, name: "ShortBreak" },
-    { key: 303, clickName: longBreakBtn, name: "LongBreak" },
+    { key: 101, clickName: pomodoroBtn, name: "Pomodoro", title: "Pomodoro" },
+    {
+      key: 202,
+      clickName: shortBreakBtn,
+      name: "ShortBreak",
+      title: "Short Break",
+    },
+    {
+      key: 303,
+      clickName: longBreakBtn,
+      name: "LongBreak",
+      title: "Long Break",
+    },
   ];
 
   return (
@@ -23,7 +33,7 @@ export default function TimerButton({
             setActiveButton(item.key);
           }}
           className={activeButton === item.key ? "activeButton" : null}>
-          {item.name}
+          {item.title}
         </button>
       ))}
     </>

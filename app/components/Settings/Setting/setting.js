@@ -2,16 +2,18 @@
 import React from "react";
 import Themesetting from "./ThemeSettings/themesetting";
 import TimerSettings from "./TimerSettings/timersettings";
+import LongBreakInterval from "./LongBreakInterval/longBreakInterval";
 import HeaderStyles from "../header.module.scss";
+import ExitSvg from "../../icons/exit/exit";
 
 export default function Setting({ closeSetting }) {
   const handleCloseClick = () => {
-    closeSetting();
+    closeSetting(); // Setting Window Close
   };
 
   const handleReloadClick = () => {
-    window.location.reload();
-    windows.location.closeSetting();
+    window.location.reload(); // Page Reload
+    windows.location.closeSetting(); // Setting Window Close
   };
   return (
     <div className={HeaderStyles.setting}>
@@ -19,10 +21,13 @@ export default function Setting({ closeSetting }) {
         <div className={HeaderStyles.headerTitle}>
           <p>Settings</p>
           <div onClick={() => closeSetting()}>
-            <p>X</p>
+            <p>
+              <ExitSvg />
+            </p>
           </div>
         </div>
         <TimerSettings />
+        <LongBreakInterval />
         <Themesetting />
         <div className={HeaderStyles.modal}>
           <button onClick={handleCloseClick}>Close</button>

@@ -34,7 +34,7 @@ export const taskSlice = createSlice({
     todoLists: [
       {
         key: 1,
-        text: "Pomodoro",
+        text: "Pomodoro Task Data",
         currentSession: 1,
         totalSessions: 4,
       },

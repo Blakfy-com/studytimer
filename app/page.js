@@ -4,9 +4,7 @@ import React, { useEffect, useState } from "react";
 import Settings from "./components/Settings/settings";
 import Setting from "./components/Settings/Setting/setting";
 import Timer from "./components/Timer/timer";
-
 import TodoList from "./components/Task/todoList";
-
 import Loading from "./components/loading";
 
 export default function Home() {
@@ -20,7 +18,7 @@ export default function Home() {
     setIsLoading(false);
     setTimeout(() => {
       setIsLoading(true);
-    }, 1000);
+    }, 100);
   }, []);
 
   return (

@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import TaskCss from "./task.module.scss";
-import Image from "next/image";
+import TrashSVG from "../icons/trash/trash";
+import VerifySVG from "../icons/verify/verify";
 
 export default function Task({
   text,
@@ -12,7 +13,7 @@ export default function Task({
   return (
     <div className={TaskCss.tasks}>
       <div className={TaskCss.tasksText}>
-        <Image src="/verify.png" width={30} height={30} alt="verify-icon" />
+        <VerifySVG />
         <p>{text}</p>
       </div>
       <div className={TaskCss.task}>
@@ -20,7 +21,7 @@ export default function Task({
           {activeSession} / {sessionCount}
         </p>
         <button onClick={() => deleteItem()}>
-          <Image src="/trash.png" width={25} height={25} alt="trash-icon" />
+          <TrashSVG />
         </button>
       </div>
     </div>

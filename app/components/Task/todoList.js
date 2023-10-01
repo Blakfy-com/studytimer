@@ -39,7 +39,9 @@ export default function TodoList() {
       {/* Open The New Task Components */}
       <AddTask onAdd={openNewTask} />
 
-      {isView ? <NewTask cancelTask={openNewTask} /> : null}
+      {isView ? (
+        <NewTask savesTask={openNewTask} cancelTask={openNewTask} />
+      ) : null}
     </>
   );
 }

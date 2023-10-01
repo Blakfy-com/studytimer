@@ -42,3 +42,28 @@ body {
   ); /* Sayfa arkaplanını karartmak için bir arka plan ekliyoruz */
   z-index: 9999; /* Üstte olmasını sağlamak için bir z-index ekliyoruz */
 }
+
+/** LOADING CSS  */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.dot1 {
+  animation: blink 1s infinite 0.3333s;
+}
+
+.dot2 {
+  animation: blink 1s infinite 0.6666s;
+}
+
+.dot3 {
+  animation: blink 1s infinite 1s;
+}
+
+/** LOADING CSS  */

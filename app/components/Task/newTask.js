@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addTodo } from "@/Redux/Slices/taskSlice";
 import Image from "next/image";
 
-export default function NewTask({ cancelTask, saveTask }) {
+export default function NewTask({ cancelTask, savesTask }) {
   //! useSelector and useDispatch
   const dispatch = useDispatch();
   //! useState`s
@@ -24,15 +24,19 @@ export default function NewTask({ cancelTask, saveTask }) {
     }
   };
 
-  const addSave = () => {
+  const saveTask = () => {
     let todo = {
       key: Date.now(),
       text: isText,
       currentSession: 1,
       totalSessions: count,
     };
-    dispatch(addTodo(todo));
-    console.log(todo);
+    // dispatch(addTodo(todo));
+
+    if (todo.text.length >= 1) {
+      dispatch(addTodo(todo));
+      savesTask();
+    }
   };
 
   const handleChange = (e) => {
@@ -102,7 +106,7 @@ export default function NewTask({ cancelTask, saveTask }) {
             onClick={() => cancelTask()}>
             Cancel
           </button>
-          <button className={Task.save} id="save" onClick={addSave}>
+          <button className={Task.save} id="save" onClick={saveTask}>
             Save
           </button>
         </div>
