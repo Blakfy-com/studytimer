@@ -5,21 +5,26 @@ export default function TimerButton({
   shortBreakBtn,
   longBreakBtn,
 }) {
-  const [activeButton, setActiveButton] = useState(101);
+  const [activeButton, setActiveButton] = useState("pomodoro");
 
   const buttonLists = [
-    { key: 101, clickName: pomodoroBtn, name: "Pomodoro", title: "Pomodoro" },
     {
-      key: 202,
-      clickName: shortBreakBtn,
-      name: "ShortBreak",
-      title: "Short Break",
+      id: "pomodoroTime",
+      title: "pomodoro",
+      name: "Pomodoro",
+      clickName: pomodoroBtn,
     },
     {
-      key: 303,
+      id: "shortBreakTime",
+      title: "shortBreak",
+      name: "Short Break",
+      clickName: shortBreakBtn,
+    },
+    {
+      id: "longBreakTime",
+      title: "longBreak",
+      name: "Long Break",
       clickName: longBreakBtn,
-      name: "LongBreak",
-      title: "Long Break",
     },
   ];
 
@@ -27,13 +32,14 @@ export default function TimerButton({
     <>
       {buttonLists.map((item) => (
         <button
-          key={item.key}
+          id={item.id}
+          key={item.title}
           onClick={() => {
             item.clickName();
-            setActiveButton(item.key);
+            setActiveButton(item.title);
           }}
-          className={activeButton === item.key ? "activeButton" : null}>
-          {item.title}
+          className={activeButton === item.title ? "activeButton" : null}>
+          {item.name}
         </button>
       ))}
     </>

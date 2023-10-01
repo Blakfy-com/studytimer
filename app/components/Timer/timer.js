@@ -1,63 +1,49 @@
 import React, { useState, useEffect } from "react";
 import TimerStyles from "./timer.module.scss";
 import { useSelector, useDispatch } from "react-redux";
-import { resetPomoCount, incPomoCount } from "@/Redux/Slices/timerSlice";
-import { increment } from "@/Redux/Slices/taskSlice";
+import { resetPomoCount, incrementPomoCount } from "@/Redux/Slices/timerSlice";
 import TimerButton from "./timerButton";
 import NextSvg from "../icons/next/next";
 
 // Sabitler
 const START_SECOND = 0;
-const START_DURATION = 10;
 
 export default function TimerMain() {
   const dispatch = useDispatch();
-  const { timerList } = useSelector((state) => state.timerSetting);
-
-  // TimerList öğelerini formatlayarak kullanımı kolaylaştırın
-  const formattedTimerList = timerList.map((item) => ({
-    key: item.key,
-    name: item.name,
-    value: item.value,
-    max: item.max,
-    min: item.min,
-  }));
+  const { settings } = useSelector((state) => state.timerSetting);
 
   // State'leri tanımlayın ve başlangıç değerleri atayın
-  const [currentMinutes, setMinutes] = useState(formattedTimerList[0].value);
+  const [currentMinutes, setMinutes] = useState(settings.pomodoroTime);
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
-  const [duration, setDuration] = useState(formattedTimerList[0].value * 60);
+  const [duration, setDuration] = useState(settings.pomodoroTime);
   const [isRunning, setIsRunning] = useState(false);
-  const [isStatus, setIsStatus] = useState(formattedTimerList[0].value);
 
   // Timer ayarlarını güncelleyen fonksiyon
-  const setTimer = (item) => {
-    resetHandler(item.value);
-    setMinutes(item.value);
-    setDuration(item.value * 60);
-    setIsStatus(item.value);
+  const setTimer = (item, isStatus) => {
+    setMinutes(item);
+    setDuration(item * 60);
+    setSeconds(START_SECOND);
 
     // Arka plan rengini ayarlayın
     const backgroundColor = {
-      Pomodoro: "",
-      ShortBreak: "#38858A",
-      LongBreak: "#608CAB",
+      pomodoroTime: "",
+      shortBreakTime: "#38858A",
+      longBreakTime: "#608CAB",
     };
 
-    document.body.style.backgroundColor = backgroundColor[item.name];
+    document.body.style.backgroundColor = backgroundColor[isStatus];
     document.body.style.transition = "0.5s";
   };
 
   // Pomodoro, ShortBreak ve LongBreak butonlarını oluşturan fonksiyonlar
   const createTimerButtonHandler = (timerName) => () => {
-    const newItem = formattedTimerList.find((item) => item.name === timerName);
-    setTimer(newItem);
+    setTimer(settings[timerName], timerName);
   };
 
   // Start, Stop, Resume ve Reset işlemlerini yöneten fonksiyonlar
   const startHandler = () => {
-    setDuration(currentSeconds + 60 * currentMinutes);
+    setDuration(currentMinutes * 60 + currentSeconds);
     setIsRunning(true);
   };
 
@@ -73,12 +59,11 @@ export default function TimerMain() {
     setIsStop(false);
   };
 
-  const resetHandler = () => {
-    setMinutes(isStatus);
-    setSeconds(START_SECOND);
+  const resetTimer = () => {
     setIsRunning(false);
-    setIsStop(false);
-    setDuration(START_DURATION * 60);
+    setMinutes(settings.pomodoroTime);
+    setSeconds(START_SECOND);
+    setDuration(settings.pomodoroTime * 60);
   };
 
   // Timer'ı çalıştıran ve durduran useEffect
@@ -86,9 +71,9 @@ export default function TimerMain() {
     if (isRunning) {
       let timer = duration;
       const interval = setInterval(() => {
-        if (--timer <= 58) {
-          resetHandler();
-          dispatch(incPomoCount());
+        if (--timer <= 1496) {
+          resetTimer();
+          dispatch(incrementPomoCount());
         } else {
           const minutes = parseInt(timer / 60, 10);
           const seconds = parseInt(timer % 60, 10);
@@ -98,18 +83,20 @@ export default function TimerMain() {
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [duration, isRunning, currentMinutes, isStatus, dispatch]);
+  }, [duration, isRunning, currentMinutes]);
 
   // Pomodoro sayacını sıfırlayan fonksiyon
-  const resetPomodoroCounter = () => {
+  const clearLocalStorage = () => {
     const text = "ALL TASK AND LOCAL STORAGE CLEAR ?";
     if (window.confirm(text)) {
       dispatch(resetPomoCount());
       localStorage.clear();
       window.location.reload();
-      alert("Okey");
+      alert("LOCAL STORAGE CLEARED");
     } else {
-      alert("TASKS CANCEL");
+      alert(
+        "Resetting the timer counter and local storage has been cancelled."
+      );
     }
   };
 
@@ -118,9 +105,9 @@ export default function TimerMain() {
       <div className={TimerStyles.timer}>
         <div className={TimerStyles.button}>
           <TimerButton
-            pomodoroBtn={createTimerButtonHandler("Pomodoro")}
-            shortBreakBtn={createTimerButtonHandler("ShortBreak")}
-            longBreakBtn={createTimerButtonHandler("LongBreak")}
+            pomodoroBtn={createTimerButtonHandler("pomodoroTime")}
+            shortBreakBtn={createTimerButtonHandler("shortBreakTime")}
+            longBreakBtn={createTimerButtonHandler("longBreakTime")}
           />
         </div>
         <div className={TimerStyles.time}>
@@ -148,21 +135,23 @@ export default function TimerMain() {
                 START
               </button>
             )}
-            <button name="nextBtn" className={TimerStyles.resetButton}>
+            <button
+              onClick={resetTimer}
+              name="nextBtn"
+              className={TimerStyles.resetButton}>
               <NextSvg
                 src="/next-verify.png"
                 width={50}
                 height={50}
                 alt="reset-icon"
-                onClick={resetHandler}
                 name="nextBtn"
               />
             </button>
           </div>
         </div>
       </div>
-      <button className={TimerStyles.level} onClick={resetPomodoroCounter}>
-        {formattedTimerList[3].value}
+      <button className={TimerStyles.level} onClick={clearLocalStorage}>
+        #{settings.pomoCount}
       </button>
       <div className={TimerStyles.tasksLevel}>THIS IS TASK NAME</div>
     </div>

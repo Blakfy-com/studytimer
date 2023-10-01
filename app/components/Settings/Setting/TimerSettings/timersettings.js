@@ -2,27 +2,14 @@
 import React from "react";
 import HeaderStyles from "../../header.module.scss";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setPomoTime,
-  setShortBreak,
-  setLongBreak,
-} from "@/Redux/Slices/timerSlice";
+import { setTimerSettings } from "@/Redux/Slices/timerSlice";
 export default function Timersettings() {
   const dispatch = useDispatch();
-  const { timerList } = useSelector((state) => state.timerSetting);
-  const timertLists = timerList.map((item) => {
-    return {
-      key: item.key,
-      name: item.name,
-      value: item.value,
-      max: item.max,
-      min: item.min,
-    };
-  });
+  const { settings } = useSelector((state) => state.timerSetting);
 
-  const pomoTime = timertLists[0].value;
-  const shortBreak = timertLists[1].value;
-  const longBreak = timertLists[2].value;
+  const pomoTime = settings.pomodoroTime;
+  const shortBreak = settings.shortBreakTime;
+  const longBreak = settings.longBreakTime;
 
   const timerItem = [
     {
@@ -51,16 +38,31 @@ export default function Timersettings() {
   const handleChange = (e) => {
     switch (e.target.name) {
       case "Pomodoro":
-        dispatch(setPomoTime(e.target.value));
+        dispatch(
+          setTimerSettings({
+            settingName: "pomodoroTime",
+            value: e.target.value,
+          })
+        );
         break;
       case "ShortBreak":
-        dispatch(setShortBreak(e.target.value));
+        dispatch(
+          setTimerSettings({
+            settingName: "shortBreakTime",
+            value: e.target.value,
+          })
+        );
         break;
       case "LongBreak":
-        dispatch(setLongBreak(e.target.value));
+        dispatch(
+          setTimerSettings({
+            settingName: "longBreakTime",
+            value: e.target.value,
+          })
+        );
         break;
       default:
-        console.log("error");
+        console.log("timerSettings.js handleChange error");
         break;
     }
   };

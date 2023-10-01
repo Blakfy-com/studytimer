@@ -3,7 +3,7 @@ import Task from "./task.module.scss";
 
 //! Redux Tool Import
 import { useSelector, useDispatch } from "react-redux";
-import { addTodo } from "@/Redux/Slices/taskSlice";
+import { addData } from "@/Redux/Slices/taskSlice";
 import Image from "next/image";
 
 export default function NewTask({ cancelTask, savesTask }) {
@@ -31,10 +31,9 @@ export default function NewTask({ cancelTask, savesTask }) {
       currentSession: 1,
       totalSessions: count,
     };
-    // dispatch(addTodo(todo));
 
     if (todo.text.length >= 1) {
-      dispatch(addTodo(todo));
+      dispatch(addData(todo));
       savesTask();
     }
   };

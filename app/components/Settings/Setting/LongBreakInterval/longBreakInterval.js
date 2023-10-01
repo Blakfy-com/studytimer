@@ -1,17 +1,17 @@
 import React from "react";
 import HeaderStyles from "../../header.module.scss";
 import { useSelector, useDispatch } from "react-redux";
-import { setActiveTimer } from "@/Redux/Slices/timerSlice";
+import { setTimerSettings } from "@/Redux/Slices/timerSlice";
 
 export default function LongBreakInterval() {
   const dispatch = useDispatch();
-  const { timerList } = useSelector((state) => state.timerSetting);
+  const { settings } = useSelector((state) => state.timerSetting);
 
   // TimerList öğelerini formatlayarak kullanımı kolaylaştırın
-  const activeTimer = timerList[5].value; // timerSlice ActiveTimer value degeri
+  const activeTimer = settings.activeTimer; // timerSlice ActiveTimer value degeri
   const onChange = (e) => {
     const newItem = e.target.value;
-    dispatch(setActiveTimer(newItem));
+    dispatch(setTimerSettings({ settingName: "activeTimer", value: newItem }));
   };
 
   return (
