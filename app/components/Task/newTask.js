@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import Task from "./task.module.scss";
 
 import { useDispatch } from "react-redux";
-import { addData } from "@/Redux/Slices/taskSlice";
+import {
+  addData,
+  setStatus,
+  incTaskCount,
+  deleteData,
+  updateData,
+} from "@/Redux/Slices/taskSlice";
 import Image from "next/image";
 
 export default function NewTask({ cancelTask, savesTask }) {
@@ -27,8 +33,9 @@ export default function NewTask({ cancelTask, savesTask }) {
     let todo = {
       key: Date.now(),
       text: isText,
-      currentSession: 1,
+      currentSession: 0,
       totalSessions: count,
+      status: false,
     };
 
     if (todo.text.length >= 1) {

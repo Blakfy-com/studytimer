@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Task from "./task.module.scss";
 
 export default function AddTask({ onAdd }) {

@@ -40,6 +40,47 @@ $mainBorder: 5px;
   }
 }
 
+.Endtasks {
+  width: $mainWidth;
+  display: flex;
+  margin: 20px 0;
+  height: 70px;
+  background-color: #fff;
+  border-radius: 10px;
+  opacity: 0.8;
+
+  .tasksText {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 100%;
+    padding: 10px;
+    width: 80%;
+    text-decoration: line-through;
+    text-decoration-style: dash;
+    img {
+      margin-left: 5px;
+    }
+    p {
+      margin-left: 10px;
+    }
+  }
+
+  .task {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    i,
+    p {
+      margin-right: 10px;
+    }
+    i {
+      font-size: 30px;
+    }
+  }
+}
+
 .addTask {
   width: $mainWidth;
   border-radius: $mainBorder;
