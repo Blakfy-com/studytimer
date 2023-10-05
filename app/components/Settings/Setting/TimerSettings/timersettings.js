@@ -68,23 +68,21 @@ export default function Timersettings() {
   };
 
   return (
-    <div>
-      <div className={HeaderStyles.timerSettting}>
-        {timerItem.map((item) => (
-          <div key={item.key} className={HeaderStyles.timerItem}>
-            <p>{item.name}</p>
-            <input
-              name={item.name}
-              type="number"
-              min={item.min}
-              max={item.max}
-              step="1" // Sayinin + 1 artacagini belirler.
-              onChange={handleChange}
-              defaultValue={item.value}
-            />
-          </div>
-        ))}
-      </div>
+    <div className={HeaderStyles.timerSettting}>
+      {timerItem.map((item) => (
+        <div key={item.key}>
+          <p>{item.name}</p>
+          <input
+            name={item.name}
+            type="number"
+            min={item.min}
+            max={item.max}
+            step="1" // Sayinin + 1 artacagini belirler.
+            onChange={handleChange}
+            defaultValue={item.value}
+          />
+        </div>
+      ))}
     </div>
   );
 }

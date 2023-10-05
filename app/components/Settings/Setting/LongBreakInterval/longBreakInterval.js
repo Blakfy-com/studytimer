@@ -18,20 +18,14 @@ export default function LongBreakInterval() {
 
   return (
     <div className={HeaderStyles.longBreakInterval}>
-      <div>
-        <div>
-          <p>Long Break Interval</p>
-        </div>
-        <div>
-          <input
-            type="number"
-            onChange={onChange}
-            value={activeTimer} // timerSlice ActiveTimer value degeri
-            min="1"
-            max="60"
-          />
-        </div>
-      </div>
+      <p>Long Break Interval</p>
+      <input
+        type="number"
+        onChange={onChange}
+        value={activeTimer} // timerSlice ActiveTimer value degeri
+        min="1"
+        max="60"
+      />
     </div>
   );
 }

@@ -31,13 +31,15 @@ export default function Themesetting({ themeTask, openPop }) {
       </div>
       <div>
         <a>Color Theme</a>
-        <button
-          onClick={() => {
-            openPopup();
-            openPop();
-          }}></button>
-        <button onClick={openPopup}></button>
-        <button onClick={openPopup}></button>
+        <div>
+          <button
+            onClick={() => {
+              openPopup();
+              openPop();
+            }}></button>
+          <button onClick={openPopup}></button>
+          <button onClick={openPopup}></button>
+        </div>
       </div>
       <Colorsetting isOpen={isPopupOpen} onClose={closePopup} />{" "}
     </div>

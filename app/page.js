@@ -22,7 +22,7 @@ export default function Home() {
   }, []);
 
   const openPop2 = () => {
-    console.log("open");
+    setViewSetting(!viewSetting);
   };
 
   return (
