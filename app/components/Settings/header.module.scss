@@ -139,7 +139,6 @@ $buttonColorBlackHover: rgba(0, 0, 0, 0.8);
         width: 500px;
         height: 100%;
         margin: 5px 0 20px 0;
-        opacity: 0.8;
         button {
           border: none;
           border-radius: 20%;
@@ -147,7 +146,7 @@ $buttonColorBlackHover: rgba(0, 0, 0, 0.8);
           text-align: center;
           text-decoration: none;
           display: inline-block;
-          margin: 4px 2px;
+          margin: 10px 2px;
           cursor: pointer;
         }
         button:nth-child(2) {
@@ -169,10 +168,19 @@ $buttonColorBlackHover: rgba(0, 0, 0, 0.8);
           background-color: #2ae211;
         }
         button:nth-child(8) {
-          margin-left: 40%;
+          margin-left: 50%;
           background-color: $buttonColorBlack;
           color: $whiteColor;
         }
+      }
+    }
+
+    .audiosettings {
+      div {
+        width: 500px;
+        height: 100%;
+        margin: 15px;
+        opacity: 0.8;
       }
     }
 

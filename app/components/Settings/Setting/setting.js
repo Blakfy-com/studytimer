@@ -4,6 +4,7 @@ import Themesetting from "./ThemeSettings/themesetting";
 import TimerSettings from "./TimerSettings/timersettings";
 import LongBreakInterval from "./LongBreakInterval/longBreakInterval";
 import HeaderStyles from "../header.module.scss";
+import AudioSettings from "./AudioSettings/audiosettings";
 import ExitSvg from "../../icons/exit/exit";
 
 export default function Setting({ closeSetting }) {
@@ -29,6 +30,7 @@ export default function Setting({ closeSetting }) {
         <TimerSettings />
         <LongBreakInterval />
         <Themesetting />
+        <AudioSettings />
         <div className={HeaderStyles.modal}>
           <button onClick={handleCloseClick}>Close</button>
           <button onClick={handleReloadClick}>Save</button>
