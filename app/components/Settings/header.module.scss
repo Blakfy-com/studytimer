@@ -206,3 +206,15 @@ $buttonColorBlackHover: rgba(0, 0, 0, 0.8);
     }
   }
 }
+
+@media screen and (max-width: 499px) {
+  .settings {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .settings {
+    width: 350px;
+  }
+}

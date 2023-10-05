@@ -4,7 +4,8 @@ import Task from "./task";
 import EndTask from "./Endtask";
 import AddTask from "./addTask";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteData, incPomoCount } from "@/Redux/Slices/taskSlice";
+import { deleteData } from "@/Redux/Slices/taskSlice";
+import TaskCss from "./task.module.scss";
 
 export default function TodoList() {
   const dispatch = useDispatch();
@@ -21,34 +22,32 @@ export default function TodoList() {
   };
 
   return (
-    <>
-      <div>
-        {data.length > 0 ? (
-          data.map((todo) =>
-            todo.currentSession !== todo.totalSessions ? (
-              <Task
-                key={todo.key}
-                text={todo.text}
-                sessionCount={todo.totalSessions}
-                activeSession={todo.currentSession}
-                //** deleteItem fonksiyonu redux uzerinden bagli oldugu key bakilarak silme islemi calisiyor. */
-                deleteItem={() => removeData(todo.key)}
-              />
-            ) : (
-              <EndTask
-                key={todo.key}
-                text={todo.text}
-                sessionCount={todo.totalSessions}
-                activeSession={todo.currentSession}
-                //** deleteItem fonksiyonu redux uzerinden bagli oldugu key bakilarak silme islemi calisiyor. */
-                deleteItem={() => removeData(todo.key)}
-              />
-            )
+    <div className={TaskCss.todoList}>
+      {data.length > 0 ? (
+        data.map((todo) =>
+          todo.currentSession !== todo.totalSessions ? (
+            <Task
+              key={todo.key}
+              text={todo.text}
+              sessionCount={todo.totalSessions}
+              activeSession={todo.currentSession}
+              //** deleteItem fonksiyonu redux uzerinden bagli oldugu key bakilarak silme islemi calisiyor. */
+              deleteItem={() => removeData(todo.key)}
+            />
+          ) : (
+            <EndTask
+              key={todo.key}
+              text={todo.text}
+              sessionCount={todo.totalSessions}
+              activeSession={todo.currentSession}
+              //** deleteItem fonksiyonu redux uzerinden bagli oldugu key bakilarak silme islemi calisiyor. */
+              deleteItem={() => removeData(todo.key)}
+            />
           )
-        ) : (
-          <></>
-        )}
-      </div>
+        )
+      ) : (
+        <></>
+      )}
 
       {/* Open The New Task Components */}
       <AddTask onAdd={openNewTask} />
@@ -56,6 +55,6 @@ export default function TodoList() {
       {isView ? (
         <NewTask savesTask={openNewTask} cancelTask={openNewTask} />
       ) : null}
-    </>
+    </div>
   );
 }

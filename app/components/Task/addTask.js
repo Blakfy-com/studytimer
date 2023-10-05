@@ -6,10 +6,9 @@ export default function AddTask({ onAdd }) {
   // Cerezlere kaydi burada yapilacak.
 
   return (
-    <div className={Task.addTask} onClick={() => onAdd()}>
+    <div className={Task.addTask}>
       <div id="addTask">
-        <i className="fa-solid fa-plus"></i>
-        <p>Add Task</p>
+        <button onClick={() => onAdd()}>Add Task</button>
       </div>
     </div>
   );
