@@ -55,6 +55,7 @@ $buttonColorBlackHover: rgba(0, 0, 0, 0.8);
   .container {
     background-color: $whiteColor;
     width: 400px;
+    padding: 0 1rem;
     .headerTitle {
       display: flex;
       justify-content: space-between;
@@ -65,7 +66,6 @@ $buttonColorBlackHover: rgba(0, 0, 0, 0.8);
     .timerSettting {
       display: flex;
       justify-content: space-between;
-      margin: 0 2rem;
       padding: 10px;
       div {
         text-align: center;
@@ -85,7 +85,6 @@ $buttonColorBlackHover: rgba(0, 0, 0, 0.8);
     .longBreakInterval {
       display: flex;
       justify-content: space-between;
-      margin: 0 2rem;
       padding: 10px;
       p {
         opacity: 0.5;
@@ -100,7 +99,6 @@ $buttonColorBlackHover: rgba(0, 0, 0, 0.8);
     }
 
     .themesetting {
-      margin: 0 2rem;
       div {
         margin: 5px 0 20px 0;
         opacity: 0.8;
