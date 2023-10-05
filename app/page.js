@@ -21,12 +21,18 @@ export default function Home() {
     }, 100);
   }, []);
 
+  const openPop2 = () => {
+    console.log("open");
+  };
+
   return (
     <div>
       {isLoading ? (
         <div className="flex flex-col items-center">
           <Settings settingTask={createSettings} />
-          {viewSetting && <Setting closeSetting={createSettings} />}
+          {viewSetting && (
+            <Setting closeSetting={createSettings} openPop1={openPop2} />
+          )}
           <div>
             <Timer />
             <TodoList />

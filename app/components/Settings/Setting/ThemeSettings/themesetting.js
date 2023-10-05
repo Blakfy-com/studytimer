@@ -5,7 +5,7 @@ import Head from "next/head";
 import HeaderStyles from "../../header.module.scss";
 import Colorsetting from "./colorsetting";
 
-export default function Themesetting({ themeTask }) {
+export default function Themesetting({ themeTask, openPop }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleCloseClick = () => {
@@ -31,7 +31,11 @@ export default function Themesetting({ themeTask }) {
       </div>
       <div>
         <a>Color Theme</a>
-        <button onClick={openPopup}></button>
+        <button
+          onClick={() => {
+            openPopup();
+            openPop();
+          }}></button>
         <button onClick={openPopup}></button>
         <button onClick={openPopup}></button>
       </div>
