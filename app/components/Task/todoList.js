@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NewTask from "./newTask";
 import Task from "./task";
+import EndTask from "./Endtask";
 import AddTask from "./addTask";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteData, incPomoCount } from "@/Redux/Slices/taskSlice";
@@ -23,16 +24,27 @@ export default function TodoList() {
     <>
       <div>
         {data.length > 0 ? (
-          data.map((todo) => (
-            <Task
-              key={todo.key}
-              text={todo.text}
-              sessionCount={todo.totalSessions}
-              activeSession={todo.currentSession}
-              //** deleteItem fonksiyonu redux uzerinden bagli oldugu key bakilarak silme islemi calisiyor. */
-              deleteItem={() => removeData(todo.key)}
-            />
-          ))
+          data.map((todo) =>
+            todo.currentSession !== todo.totalSessions ? (
+              <Task
+                key={todo.key}
+                text={todo.text}
+                sessionCount={todo.totalSessions}
+                activeSession={todo.currentSession}
+                //** deleteItem fonksiyonu redux uzerinden bagli oldugu key bakilarak silme islemi calisiyor. */
+                deleteItem={() => removeData(todo.key)}
+              />
+            ) : (
+              <EndTask
+                key={todo.key}
+                text={todo.text}
+                sessionCount={todo.totalSessions}
+                activeSession={todo.currentSession}
+                //** deleteItem fonksiyonu redux uzerinden bagli oldugu key bakilarak silme islemi calisiyor. */
+                deleteItem={() => removeData(todo.key)}
+              />
+            )
+          )
         ) : (
           <></>
         )}

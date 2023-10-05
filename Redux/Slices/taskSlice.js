@@ -4,17 +4,33 @@ import { createSlice } from "@reduxjs/toolkit";
 const data = {
   data: [
     {
-      key: 1,
-      text: "Pomodoro Task Data",
-      currentSession: 1,
-      totalSessions: 4,
+      key: 0,
+      text: "Calisma Zamani 0",
+      currentSession: 0,
+      totalSessions: 2,
+      status: false,
     },
     {
-      key: 2,
-      text: "Calisma Zamani",
-      currentSession: 1,
-      totalSessions: 4,
+      key: 1,
+      text: "Calisma Zamani 1",
+      currentSession: 0,
+      totalSessions: 2,
+      status: false,
     },
+    // {
+    //   key: 2,
+    //   text: "Calisma Zamani 2",
+    //   currentSession: 0,
+    //   totalSessions: 4,
+    //   status: false,
+    // },
+    // {
+    //   key: 3,
+    //   text: "Calisma Zamani 3",
+    //   currentSession: 0,
+    //   totalSessions: 4,
+    //   status: false,
+    // },
   ],
 };
 
@@ -26,8 +42,7 @@ export const dataSlice = createSlice({
     addData: (state, action) => {
       state.data.push(action.payload);
     },
-
-    incPomoCount: (state, action) => {
+    incTaskCount: (state, action) => {
       state.data = state.data.map((dataItem) => {
         if (dataItem.key === action.payload) {
           return {
@@ -37,6 +52,20 @@ export const dataSlice = createSlice({
         }
         return dataItem;
       });
+      return state; // State'i güncellenmiş haliyle döndürün
+    },
+
+    setStatus: (state, action) => {
+      state.data = state.data.map((dataItem) => {
+        if (dataItem.key === action.payload) {
+          return {
+            ...dataItem,
+            status: !dataItem.status,
+          };
+        }
+        return dataItem;
+      });
+      return state; // State'i güncellenmiş haliyle döndürün
     },
 
     deleteData: (state, action) => {
@@ -58,7 +87,7 @@ export const dataSlice = createSlice({
 });
 
 // Eylemleri dışa aktarın
-export const { addData, incPomoCount, deleteData, updateData } =
+export const { addData, setStatus, incTaskCount, deleteData, updateData } =
   dataSlice.actions;
 
 // Reducer'ı dışa aktarın

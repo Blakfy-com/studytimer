@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import TimerStyles from "./timer.module.scss";
-import { useSelector, useDispatch } from "react-redux";
-import { resetPomoCount, incrementPomoCount } from "@/Redux/Slices/timerSlice";
-import { incPomoCount } from "@/Redux/Slices/taskSlice";
 import TimerButton from "./timerButton";
 import NextSvg from "../icons/next/next";
+
+import { useSelector, useDispatch } from "react-redux";
+import { resetPomoCount, incrementPomoCount } from "@/Redux/Slices/timerSlice";
+import { setStatus, incTaskCount } from "@/Redux/Slices/taskSlice";
 
 // Sabitler
 const START_SECOND = 0;
@@ -14,12 +15,35 @@ export default function TimerMain() {
   const { settings } = useSelector((state) => state.timerSetting);
   const { data } = useSelector((state) => state.dataAnalysis);
 
-  // State'leri tanımlayın ve başlangıç değerleri atayın
   const [currentMinutes, setMinutes] = useState(settings.pomodoroTime);
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
   const [duration, setDuration] = useState(settings.pomodoroTime);
   const [isRunning, setIsRunning] = useState(false);
+  const [key, setKey] = useState(0);
+
+  const countTask = () => {
+    const sortedData = [...data];
+    sortedData.sort((a, b) => a.key - b.key);
+    let newKey = 0;
+    let currentKey = sortedData[key].key;
+
+    for (let i = 0; i < sortedData.length; i++) {
+      const el = sortedData[i];
+
+      if (el.key === currentKey) {
+        dispatch(setStatus(el.key));
+        if (el.currentSession < el.totalSessions - 1) {
+          dispatch(incTaskCount(el.key));
+          dispatch(setStatus(el.key));
+          break;
+        }
+        newKey++;
+        setKey(newKey);
+        dispatch(incTaskCount(el.key));
+      }
+    }
+  };
 
   // Timer ayarlarını güncelleyen fonksiyon
   const setTimer = (item, isStatus) => {
@@ -76,6 +100,7 @@ export default function TimerMain() {
         if (--timer <= 1497) {
           resetTimer();
           dispatch(incrementPomoCount());
+          countTask();
         } else {
           const minutes = parseInt(timer / 60, 10);
           const seconds = parseInt(timer % 60, 10);
@@ -85,7 +110,7 @@ export default function TimerMain() {
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [duration, isRunning, currentMinutes]);
+  }, [duration, isRunning]);
 
   // Pomodoro sayacını sıfırlayan fonksiyon
   const clearLocalStorage = () => {
@@ -105,6 +130,7 @@ export default function TimerMain() {
   return (
     <div className={TimerStyles.container}>
       <div className={TimerStyles.timer}>
+        {/* Status Button */}
         <div className={TimerStyles.button}>
           <TimerButton
             pomodoroBtn={createTimerButtonHandler("pomodoroTime")}
@@ -112,10 +138,12 @@ export default function TimerMain() {
             longBreakBtn={createTimerButtonHandler("longBreakTime")}
           />
         </div>
+        {/* Timer  */}
         <div className={TimerStyles.time}>
           {String(currentMinutes).padStart(2, "0")}:
           {String(currentSeconds).padStart(2, "0")}
         </div>
+        {/* Button */}
         <div className={TimerStyles.start}>
           <div className={TimerStyles.startResetButton}>
             {!isRunning && !isStop && (
@@ -152,10 +180,17 @@ export default function TimerMain() {
           </div>
         </div>
       </div>
+      {/* PomoCount */}
       <button className={TimerStyles.level} onClick={clearLocalStorage}>
         #{settings.pomoCount}
       </button>
-      <div className={TimerStyles.tasksLevel}>THIS IS TASK NAME</div>
+      <div className={TimerStyles.tasksLevel}>
+        {/* create data map function, status === true item.text */}
+
+        {data.map((item) => {
+          return item.status ? item.text : null;
+        })}
+      </div>
     </div>
   );
 }
