@@ -70,14 +70,23 @@ $buttonColorBlackHover: rgba(0, 0, 0, 0.8);
       div {
         text-align: center;
         p {
-          opacity: 0.5;
+          opacity: 0.7;
         }
         input {
+          padding: 0.5rem;
           opacity: 0.7;
           width: 80px;
           height: 40px;
           background-color: $inputBgColor;
           border-radius: 5px;
+          &:focus {
+            outline: none;
+          }
+          // input tiklandiginda artirmak ve azaltmak icin kullanilan butonlari tasarla.
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+            height: 30px;
+          }
         }
       }
     }
@@ -87,14 +96,24 @@ $buttonColorBlackHover: rgba(0, 0, 0, 0.8);
       justify-content: space-between;
       padding: 10px;
       p {
-        opacity: 0.5;
+        opacity: 0.7;
+        padding: 0.5rem;
       }
       input {
+        padding: 0.5rem;
         opacity: 0.7;
         width: 80px;
         height: 40px;
         background-color: $inputBgColor;
         border-radius: 5px;
+
+        &:focus {
+          outline: none;
+        }
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          height: 30px;
+        }
       }
     }
 

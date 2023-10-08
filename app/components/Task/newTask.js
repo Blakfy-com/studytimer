@@ -36,6 +36,7 @@ export default function NewTask({ cancelTask, savesTask }) {
       currentSession: 0,
       totalSessions: count,
       status: false,
+      active: false,
     };
 
     if (todo.text.length >= 1) {

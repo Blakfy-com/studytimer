@@ -1,6 +1,6 @@
 Study Timer, bir pomodoro uygulamasidir. Isteyen herkes projeye destek verebilir. Ortak calismak ve gelistirmek isteyenler blakfy@hotmail.com uzerinden iletisime gecebilirsiniz.
 
-<a href="https://651865fe4119b6510710822b--idyllic-hummingbird-cff50d.netlify.app/">Live Stream</a>
+<a href="https://study-timerr.netlify.app">Live Stream</a>
 
 npm run dev # or yarn dev # or pnpm dev
 

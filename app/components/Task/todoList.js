@@ -10,7 +10,6 @@ import TaskCss from "./task.module.scss";
 export default function TodoList() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.dataAnalysis);
-  const { settings } = useSelector((state) => state.timerSetting);
   const [isView, setIsView] = useState(false);
 
   const openNewTask = () => {
@@ -25,8 +24,9 @@ export default function TodoList() {
     <div className={TaskCss.todoList}>
       {data.length > 0 ? (
         data.map((todo) =>
-          todo.currentSession !== todo.totalSessions ? (
+          todo.currentSession < todo.totalSessions ? (
             <Task
+              taskId={todo.key}
               key={todo.key}
               text={todo.text}
               sessionCount={todo.totalSessions}

@@ -9,9 +9,10 @@ export default function Task({
   sessionCount,
   activeSession,
   deleteItem,
+  taskId,
 }) {
   return (
-    <div className={TaskCss.tasks}>
+    <div id={taskId} className={TaskCss.tasks}>
       <div className={TaskCss.tasksText}>
         <VerifySVG />
         <p>{text}</p>

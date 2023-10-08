@@ -5,7 +5,7 @@ import NextSvg from "../icons/next/next";
 
 import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incrementPomoCount } from "@/Redux/Slices/timerSlice";
-import { setStatus, incTaskCount } from "@/Redux/Slices/taskSlice";
+import { incTaskCurrent, incTask } from "@/Redux/Slices/taskSlice";
 
 // Sabitler
 const START_SECOND = 0;
@@ -13,14 +13,14 @@ const START_SECOND = 0;
 export default function TimerMain() {
   const dispatch = useDispatch();
   const { settings } = useSelector((state) => state.timerSetting);
-  const { data } = useSelector((state) => state.dataAnalysis);
+  const { data, todoCount } = useSelector((state) => state.dataAnalysis);
 
   const [currentMinutes, setMinutes] = useState(settings.pomodoroTime);
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
   const [duration, setDuration] = useState(settings.pomodoroTime);
   const [isRunning, setIsRunning] = useState(false);
-  const [key, setKey] = useState(0);
+  const [key, setKey] = useState(todoCount);
 
   const countTask = () => {
     const sortedData = [...data];
@@ -96,6 +96,7 @@ export default function TimerMain() {
   useEffect(() => {
     if (isRunning) {
       let timer = duration;
+
       const interval = setInterval(() => {
         if (--timer <= 1497) {
           resetTimer();
@@ -110,7 +111,7 @@ export default function TimerMain() {
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [duration, isRunning]);
+  }, [duration, isRunning, data]);
 
   // Pomodoro sayacını sıfırlayan fonksiyon
   const clearLocalStorage = () => {

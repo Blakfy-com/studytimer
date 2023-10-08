@@ -9,6 +9,7 @@ const data = {
       currentSession: 0,
       totalSessions: 2,
       status: false,
+      active: false,
     },
     {
       key: 1,
@@ -16,22 +17,10 @@ const data = {
       currentSession: 0,
       totalSessions: 2,
       status: false,
+      active: false,
     },
-    // {
-    //   key: 2,
-    //   text: "Calisma Zamani 2",
-    //   currentSession: 0,
-    //   totalSessions: 4,
-    //   status: false,
-    // },
-    // {
-    //   key: 3,
-    //   text: "Calisma Zamani 3",
-    //   currentSession: 0,
-    //   totalSessions: 4,
-    //   status: false,
-    // },
   ],
+  todoCount: 0,
 };
 
 // Veri dilimini oluşturun
@@ -39,10 +28,13 @@ export const dataSlice = createSlice({
   name: "dataAnalysis",
   initialState: data,
   reducers: {
+    incTask: (state) => {
+      state.todoCount++;
+    },
     addData: (state, action) => {
       state.data.push(action.payload);
     },
-    incTaskCount: (state, action) => {
+    incTaskCurrent: (state, action) => {
       state.data = state.data.map((dataItem) => {
         if (dataItem.key === action.payload) {
           return {
@@ -61,6 +53,19 @@ export const dataSlice = createSlice({
           return {
             ...dataItem,
             status: !dataItem.status,
+          };
+        }
+        return dataItem;
+      });
+      return state; // State'i güncellenmiş haliyle döndürün
+    },
+
+    setActive: (state, action) => {
+      state.data = state.data.map((dataItem) => {
+        if (dataItem.key === action.payload) {
+          return {
+            ...dataItem,
+            active: !dataItem.active,
           };
         }
         return dataItem;
@@ -87,8 +92,15 @@ export const dataSlice = createSlice({
 });
 
 // Eylemleri dışa aktarın
-export const { addData, setStatus, incTaskCount, deleteData, updateData } =
-  dataSlice.actions;
+export const {
+  incTask,
+  addData,
+  incTaskCurrent,
+  setStatus,
+  setActive,
+  deleteData,
+  updateData,
+} = dataSlice.actions;
 
 // Reducer'ı dışa aktarın
 export default dataSlice.reducer;
