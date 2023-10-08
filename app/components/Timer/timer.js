@@ -25,7 +25,6 @@ export default function TimerMain() {
   const countTask = () => {
     const sortedData = [...data];
     sortedData.sort((a, b) => a.key - b.key);
-    let newKey = 0;
     let currentKey = sortedData[key].key;
 
     for (let i = 0; i < sortedData.length; i++) {
@@ -38,8 +37,7 @@ export default function TimerMain() {
           dispatch(setStatus(el.key));
           break;
         }
-        newKey++;
-        setKey(newKey);
+        dispatch(incTask(el.key));
         dispatch(incTaskCount(el.key));
       }
     }
