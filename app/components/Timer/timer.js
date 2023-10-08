@@ -5,7 +5,7 @@ import NextSvg from "../icons/next/next";
 
 import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incrementPomoCount } from "@/Redux/Slices/timerSlice";
-import { incTaskCurrent, incTask } from "@/Redux/Slices/taskSlice";
+import { incTaskCurrent, incTask, setStatus } from "@/Redux/Slices/taskSlice";
 
 // Sabitler
 const START_SECOND = 0;
@@ -20,27 +20,35 @@ export default function TimerMain() {
   const [isStop, setIsStop] = useState(false);
   const [duration, setDuration] = useState(settings.pomodoroTime);
   const [isRunning, setIsRunning] = useState(false);
-  const [key, setKey] = useState(todoCount);
+
+  function dataCount() {
+    let newData = [];
+    for (let i = 0; i < data.length; i++) {
+      newData.push(data[i].key);
+    }
+    if (newData !== undefined) {
+      return newData;
+    }
+  }
+  console.log("data", dataCount());
 
   const countTask = () => {
-    const sortedData = [...data];
-    sortedData.sort((a, b) => a.key - b.key);
-    let currentKey = sortedData[key].key;
-
-    for (let i = 0; i < sortedData.length; i++) {
-      const el = sortedData[i];
-
-      if (el.key === currentKey) {
-        dispatch(setStatus(el.key));
-        if (el.currentSession < el.totalSessions - 1) {
-          dispatch(incTaskCount(el.key));
-          dispatch(setStatus(el.key));
-          break;
+    if (data.length !== todoCount) {
+      if (data[todoCount].currentSession !== data[todoCount].totalSessions) {
+        dispatch(incTaskCurrent(data[todoCount].key));
+        if (!data[todoCount].status) {
+          dispatch(setStatus(data[todoCount].key));
         }
-        dispatch(incTask(el.key));
-        dispatch(incTaskCount(el.key));
+        if (
+          data[todoCount].currentSession ===
+          data[todoCount].totalSessions - 1
+        ) {
+          dispatch(incTask());
+        }
       }
     }
+
+    console.log("todoCount değeri", todoCount);
   };
 
   // Timer ayarlarını güncelleyen fonksiyon
