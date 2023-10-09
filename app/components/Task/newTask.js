@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import Task from "./task.module.scss";
 
 import { useDispatch } from "react-redux";
-import {
-  addData,
-  setStatus,
-  incTaskCount,
-  deleteData,
-  updateData,
-} from "@/Redux/Slices/taskSlice";
+import { addData } from "@/Redux/Slices/taskSlice";
 import Image from "next/image";
 
 export default function NewTask({ cancelTask, savesTask }) {
@@ -36,7 +30,6 @@ export default function NewTask({ cancelTask, savesTask }) {
       currentSession: 0,
       totalSessions: count,
       status: false,
-      active: false,
     };
 
     if (todo.text.length >= 1) {
@@ -76,26 +69,28 @@ export default function NewTask({ cancelTask, savesTask }) {
           <div className={Task.number}>{count}</div>
           {/* UP ARROW */}
           <button name="up" onClick={handleArrow}>
-            <Image
+            U
+            {/* <Image
               src="/up-arrow.png"
               width={20}
               height={20}
               alt="uparrow"
               name="up"
               onClick={handleArrow}
-            />
+            /> */}
           </button>
 
           {/*  DOWN ARROW */}
           <button name="down" onClick={handleArrow}>
-            <Image
+            D
+            {/* <Image
               src="/down-arrow.png"
               width={20}
               height={20}
               alt="downarrow"
               name="down"
               onClick={handleArrow}
-            />
+            /> */}
           </button>
         </div>
       </div>

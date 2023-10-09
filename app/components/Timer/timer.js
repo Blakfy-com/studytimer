@@ -20,35 +20,40 @@ export default function TimerMain() {
   const [isStop, setIsStop] = useState(false);
   const [duration, setDuration] = useState(settings.pomodoroTime);
   const [isRunning, setIsRunning] = useState(false);
+  const [key, setKey] = useState(todoCount);
 
   function dataCount() {
     let newData = [];
-    for (let i = 0; i < data.length; i++) {
-      newData.push(data[i].key);
-    }
-    if (newData !== undefined) {
-      return newData;
-    }
-  }
-  console.log("data", dataCount());
 
-  const countTask = () => {
-    if (data.length !== todoCount) {
-      if (data[todoCount].currentSession !== data[todoCount].totalSessions) {
-        dispatch(incTaskCurrent(data[todoCount].key));
-        if (!data[todoCount].status) {
-          dispatch(setStatus(data[todoCount].key));
-        }
-        if (
-          data[todoCount].currentSession ===
-          data[todoCount].totalSessions - 1
-        ) {
-          dispatch(incTask());
-        }
+    for (let i = 0; i < data.length; i++) {
+      if (!data[i].status && data[i].currentSession !== data[i].totalSessions) {
+        newData.push(data[i].key);
       }
     }
 
-    console.log("todoCount değeri", todoCount);
+    if (newData.length > 0) {
+      newData.sort((a, b) => a - b);
+      return newData[0];
+    }
+  }
+
+  // 48 satırdaki değerlerde sorun var çözülecek
+  const countTask = () => {
+    if (data) {
+      const count = dataCount();
+      if (count !== null) {
+        dispatch(incTaskCurrent(count));
+
+        if (
+          data[count] === undefined &&
+          data[count].currentSession === data[count].totalSessions
+        ) {
+          dispatch(setStatus(dataCount()));
+        }
+      }
+    } else {
+      return "Veri Bulunamadi";
+    }
   };
 
   // Timer ayarlarını güncelleyen fonksiyon

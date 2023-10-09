@@ -7,17 +7,29 @@ const data = {
       key: 0,
       text: "Calisma Zamani 0",
       currentSession: 0,
-      totalSessions: 2,
+      totalSessions: 1,
       status: false,
-      active: false,
     },
     {
-      key: 1,
+      key: 7,
       text: "Calisma Zamani 1",
       currentSession: 0,
-      totalSessions: 2,
+      totalSessions: 1,
       status: false,
-      active: false,
+    },
+    {
+      key: 5,
+      text: "Calisma Zamani 0",
+      currentSession: 0,
+      totalSessions: 1,
+      status: false,
+    },
+    {
+      key: 3,
+      text: "Calisma Zamani 1",
+      currentSession: 0,
+      totalSessions: 1,
+      status: false,
     },
   ],
   todoCount: 0,
@@ -28,9 +40,6 @@ export const dataSlice = createSlice({
   name: "dataAnalysis",
   initialState: data,
   reducers: {
-    incTask: (state) => {
-      state.todoCount++;
-    },
     addData: (state, action) => {
       state.data.push(action.payload);
     },
@@ -52,20 +61,7 @@ export const dataSlice = createSlice({
         if (dataItem.key === action.payload) {
           return {
             ...dataItem,
-            status: !dataItem.status,
-          };
-        }
-        return dataItem;
-      });
-      return state; // State'i güncellenmiş haliyle döndürün
-    },
-
-    setActive: (state, action) => {
-      state.data = state.data.map((dataItem) => {
-        if (dataItem.key === action.payload) {
-          return {
-            ...dataItem,
-            active: !dataItem.active,
+            status: dataItem.status ? false : true,
           };
         }
         return dataItem;
