@@ -2,37 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Verilerin başlangıç durumunu tanımlayın
 const data = {
-  data: [
-    {
-      key: 0,
-      text: "Calisma Zamani 0",
-      currentSession: 0,
-      totalSessions: 1,
-      status: false,
-    },
-    {
-      key: 7,
-      text: "Calisma Zamani 1",
-      currentSession: 0,
-      totalSessions: 1,
-      status: false,
-    },
-    {
-      key: 5,
-      text: "Calisma Zamani 0",
-      currentSession: 0,
-      totalSessions: 1,
-      status: false,
-    },
-    {
-      key: 3,
-      text: "Calisma Zamani 1",
-      currentSession: 0,
-      totalSessions: 1,
-      status: false,
-    },
-  ],
-  todoCount: 0,
+  data: [],
 };
 
 // Veri dilimini oluşturun
@@ -88,15 +58,8 @@ export const dataSlice = createSlice({
 });
 
 // Eylemleri dışa aktarın
-export const {
-  incTask,
-  addData,
-  incTaskCurrent,
-  setStatus,
-  setActive,
-  deleteData,
-  updateData,
-} = dataSlice.actions;
+export const { addData, incTaskCurrent, setStatus, deleteData, updateData } =
+  dataSlice.actions;
 
 // Reducer'ı dışa aktarın
 export default dataSlice.reducer;

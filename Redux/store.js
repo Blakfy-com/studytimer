@@ -4,6 +4,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import timerReducer from "./Slices/timerSlice";
 import taskSlice from "./Slices/taskSlice";
+import colorSlice from "./Slices/colorSlice";
 import {
   loadStateFromLocalStorage,
   saveStateToLocalStorage,
@@ -14,6 +15,7 @@ const persistedState = loadStateFromLocalStorage();
 const reducer = {
   timerSetting: timerReducer,
   dataAnalysis: taskSlice,
+  colorSettings: colorSlice,
 };
 
 const store = configureStore({

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import TimerStyles from "./timer.module.scss";
 import TimerButton from "./timerButton";
-import NextSvg from "../icons/next/next";
+
+import StartButtons from "./startButtons";
+import Nextbutton from "./nextButton";
 
 import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incrementPomoCount } from "@/Redux/Slices/timerSlice";
-import { incTaskCurrent, incTask, setStatus } from "@/Redux/Slices/taskSlice";
+import { incTaskCurrent, setStatus } from "@/Redux/Slices/taskSlice";
+import { setColors } from "@/Redux/Slices/colorSlice";
 
 // Sabitler
 const START_SECOND = 0;
@@ -13,31 +16,34 @@ const START_SECOND = 0;
 export default function TimerMain() {
   const dispatch = useDispatch();
   const { settings } = useSelector((state) => state.timerSetting);
-  const { data, todoCount } = useSelector((state) => state.dataAnalysis);
+  const { data } = useSelector((state) => state.dataAnalysis);
+  const { colorSettings } = useSelector((state) => state.colorSettings);
 
   const [currentMinutes, setMinutes] = useState(settings.pomodoroTime);
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
   const [duration, setDuration] = useState(settings.pomodoroTime);
   const [isRunning, setIsRunning] = useState(false);
-  const [key, setKey] = useState(todoCount);
+  const [activeTask, setActiveTask] = useState("");
 
   function dataCount() {
     let newData = [];
+    let newActiveTAsk = [];
 
     for (let i = 0; i < data.length; i++) {
       if (!data[i].status && data[i].currentSession !== data[i].totalSessions) {
         newData.push(data[i].key);
+        newActiveTAsk.push(data[i].text);
       }
     }
 
     if (newData.length > 0) {
       newData.sort((a, b) => a - b);
+      newActiveTAsk.sort((a, b) => a - b);
+      setActiveTask(newActiveTAsk[0]);
       return newData[0];
     }
   }
-
-  // 48 satırdaki değerlerde sorun var çözülecek
   const countTask = () => {
     if (data) {
       const count = dataCount();
@@ -45,6 +51,7 @@ export default function TimerMain() {
         dispatch(incTaskCurrent(count));
 
         if (
+          data[count] === null &&
           data[count] === undefined &&
           data[count].currentSession === data[count].totalSessions
         ) {
@@ -56,6 +63,22 @@ export default function TimerMain() {
     }
   };
 
+  function colorSettingsChange(status) {
+    const colorMap = {
+      pomodoroTime: colorSettings.focusColor,
+      shortBreakTime: colorSettings.shortBreakColor,
+      longBreakTime: colorSettings.longBreakColor,
+    };
+    document.body.style.backgroundColor =
+      colorMap[status] || colorSettings.focusColor;
+  }
+
+  useEffect(() => {
+    // İlk girişte yapılması gerekenleri buraya yazın
+    document.body.style.backgroundColor = colorSettings.focusColor;
+    // Birinci girişte yapılacak işlemleri bir kez yapmak için boş bir bağımlılık dizisi verin
+  }, []);
+
   // Timer ayarlarını güncelleyen fonksiyon
   const setTimer = (item, isStatus) => {
     setMinutes(item);
@@ -63,13 +86,7 @@ export default function TimerMain() {
     setSeconds(START_SECOND);
 
     // Arka plan rengini ayarlayın
-    const backgroundColor = {
-      pomodoroTime: "",
-      shortBreakTime: "#38858A",
-      longBreakTime: "#608CAB",
-    };
-
-    document.body.style.backgroundColor = backgroundColor[isStatus];
+    colorSettingsChange(isStatus);
     document.body.style.transition = "0.5s";
   };
 
@@ -101,6 +118,40 @@ export default function TimerMain() {
     setMinutes(settings.pomodoroTime);
     setSeconds(START_SECOND);
     setDuration(settings.pomodoroTime * 60);
+  };
+
+  const startResetButtonContent = () => {
+    if (!isRunning && !isStop) {
+      return (
+        <StartButtons
+          text="START"
+          buttonClick={startHandler}
+          buttonColor={colorSettings.focusColor}
+        />
+      );
+    } else if (isRunning) {
+      return (
+        <>
+          <StartButtons
+            text="PAUSE"
+            buttonClick={stopHandler}
+            buttonColor={colorSettings.focusColor}
+          />
+          <Nextbutton click={resetTimer} name="nextBtn" />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <StartButtons
+            text="START"
+            buttonClick={resumeHandler}
+            buttonColor={colorSettings.focusColor}
+          />
+          <Nextbutton click={resetTimer} name="nextBtn" />
+        </>
+      );
+    }
   };
 
   // Timer'ı çalıştıran ve durduran useEffect
@@ -156,40 +207,8 @@ export default function TimerMain() {
           {String(currentSeconds).padStart(2, "0")}
         </div>
         {/* Button */}
-        <div className={TimerStyles.start}>
-          <div className={TimerStyles.startResetButton}>
-            {!isRunning && !isStop && (
-              <button
-                className={TimerStyles.startButton}
-                onClick={startHandler}>
-                START
-              </button>
-            )}
-            {isRunning && (
-              <button className={TimerStyles.startButton} onClick={stopHandler}>
-                PAUSE
-              </button>
-            )}
-            {isStop && (
-              <button
-                className={TimerStyles.startButton}
-                onClick={resumeHandler}>
-                START
-              </button>
-            )}
-            <button
-              onClick={resetTimer}
-              name="nextBtn"
-              className={TimerStyles.resetButton}>
-              <NextSvg
-                src="/next-verify.png"
-                width={50}
-                height={50}
-                alt="reset-icon"
-                name="nextBtn"
-              />
-            </button>
-          </div>
+        <div className={TimerStyles.startResetButton}>
+          {startResetButtonContent()}
         </div>
       </div>
       {/* PomoCount */}
@@ -199,9 +218,7 @@ export default function TimerMain() {
       <div className={TimerStyles.tasksLevel}>
         {/* create data map function, status === true item.text */}
 
-        {data.map((item) => {
-          return item.status ? item.text : null;
-        })}
+        {activeTask}
       </div>
     </div>
   );

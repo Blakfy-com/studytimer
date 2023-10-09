@@ -8,7 +8,6 @@ export const timerSlice = createSlice({
       shortBreakTime: 5,
       longBreakTime: 10,
       pomoCount: 0,
-      activeTask: "",
       longBreakInterval: 4,
     },
   },

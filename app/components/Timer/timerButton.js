@@ -11,19 +11,19 @@ export default function TimerButton({
     {
       id: "pomodoroTime",
       title: "pomodoro",
-      name: "Pomodoro",
+      name: "Focus Time", // Display Name
       clickName: pomodoroBtn,
     },
     {
       id: "shortBreakTime",
       title: "shortBreak",
-      name: "Short Break",
+      name: "Short Break", // Display Name
       clickName: shortBreakBtn,
     },
     {
       id: "longBreakTime",
       title: "longBreak",
-      name: "Long Break",
+      name: "Long Break", // Display Name
       clickName: longBreakBtn,
     },
   ];
