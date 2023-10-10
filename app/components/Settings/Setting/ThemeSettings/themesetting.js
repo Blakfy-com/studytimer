@@ -1,47 +1,52 @@
 "use client";
 
 import React, { useState } from "react";
-import Head from "next/head";
+import { useSelector } from "react-redux";
 import HeaderStyles from "../../header.module.scss";
-import Colorsetting from "./colorsetting";
 
-export default function Themesetting({ themeTask, openPop }) {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+export default function Themesetting({ handleButtonClick }) {
+  const focusColor = useSelector(
+    (state) => state.colorSettings.colorSettings.focusColor
+  );
+  const shortBreakColor = useSelector(
+    (state) => state.colorSettings.colorSettings.shortBreakColor
+  );
+  const longBreakColor = useSelector(
+    (state) => state.colorSettings.colorSettings.longBreakColor
+  );
 
-  const handleCloseClick = () => {
-    closeSetting();
-  };
-
-  const handleReloadClick = () => {
-    window.location.reload();
-  };
-
-  const openPopup = () => {
-    setIsPopupOpen(true);
-  };
-
-  const closePopup = () => {
-    setIsPopupOpen(false);
-  };
+  const buttons = [
+    {
+      key: "focusColor",
+      background: focusColor,
+    },
+    {
+      key: "shortBreakColor",
+      background: shortBreakColor,
+    },
+    {
+      key: "longBreakColor",
+      background: longBreakColor,
+    },
+  ];
 
   return (
     <div className={HeaderStyles.themesetting}>
+      <p>Theme</p>
       <div>
-        <a>Theme</a>
-      </div>
-      <div>
-        <a>Color Theme</a>
+        <p>Color Theme</p>
         <div>
-          <button
-            onClick={() => {
-              openPopup();
-              openPop();
-            }}></button>
-          <button onClick={openPopup}></button>
-          <button onClick={openPopup}></button>
+          {buttons.map((btn) => {
+            return (
+              <button
+                key={btn.key}
+                onClick={() => handleButtonClick(btn.key)}
+                style={{ background: btn.background }}
+              />
+            );
+          })}
         </div>
       </div>
-      <Colorsetting isOpen={isPopupOpen} onClose={closePopup} />{" "}
     </div>
   );
 }

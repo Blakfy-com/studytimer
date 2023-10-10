@@ -7,7 +7,7 @@ import HeaderStyles from "../header.module.scss";
 import AudioSettings from "./AudioSettings/audiosettings";
 import ExitSvg from "../../icons/exit/exit";
 
-export default function Setting({ closeSetting, openPop1 }) {
+export default function Setting({ closeSetting, handleColorClick }) {
   const handleCloseClick = () => {
     closeSetting(); // Setting Window Close
   };
@@ -21,15 +21,11 @@ export default function Setting({ closeSetting, openPop1 }) {
       <div className={HeaderStyles.container}>
         <div className={HeaderStyles.headerTitle}>
           <p>Settings</p>
-          <div onClick={() => closeSetting()}>
-            <p>
-              <ExitSvg />
-            </p>
-          </div>
+          <ExitSvg handleClick={() => closeSetting()} />
         </div>
         <TimerSettings />
         <LongBreakInterval />
-        <Themesetting openPop={openPop1} />
+        <Themesetting handleButtonClick={handleColorClick} />
         <AudioSettings />
         <div className={HeaderStyles.modal}>
           <button onClick={handleCloseClick}>Close</button>

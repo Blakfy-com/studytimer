@@ -3,7 +3,7 @@ import React from "react";
 import HeaderStyles from "./header.module.scss";
 import Link from "next/link";
 
-export default function Settings({ settingTask }) {
+export default function Navbar({ settingTask }) {
   return (
     <div className={HeaderStyles.settings}>
       <div>

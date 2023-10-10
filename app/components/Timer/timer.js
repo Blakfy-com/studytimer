@@ -20,9 +20,9 @@ export default function TimerMain() {
   const { colorSettings } = useSelector((state) => state.colorSettings);
 
   const [currentMinutes, setMinutes] = useState(settings.pomodoroTime);
+  const [duration, setDuration] = useState(settings.pomodoroTime);
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
-  const [duration, setDuration] = useState(settings.pomodoroTime);
   const [isRunning, setIsRunning] = useState(false);
   const [activeTask, setActiveTask] = useState("");
 
@@ -35,15 +35,15 @@ export default function TimerMain() {
         newData.push(data[i].key);
         newActiveTAsk.push(data[i].text);
       }
-    }
-
-    if (newData.length > 0) {
-      newData.sort((a, b) => a - b);
-      newActiveTAsk.sort((a, b) => a - b);
-      setActiveTask(newActiveTAsk[0]);
-      return newData[0];
+      if (newData.length > 0) {
+        newData.sort((a, b) => a - b);
+        newActiveTAsk.sort((a, b) => a - b);
+        setActiveTask(newActiveTAsk[0]);
+        return newData[0];
+      }
     }
   }
+
   const countTask = () => {
     if (data) {
       const count = dataCount();
