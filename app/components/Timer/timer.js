@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import TimerStyles from "./timer.module.scss";
 import TimerButton from "./timerButton";
-
 import StartButtons from "./startButtons";
 import Nextbutton from "./nextButton";
-
 import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incrementPomoCount } from "@/Redux/Slices/timerSlice";
 import { incTaskCurrent, setStatus } from "@/Redux/Slices/taskSlice";
-import { setColors } from "@/Redux/Slices/colorSlice";
 
-// Sabitler
 const START_SECOND = 0;
 
 export default function TimerMain() {
@@ -20,27 +16,30 @@ export default function TimerMain() {
   const { colorSettings } = useSelector((state) => state.colorSettings);
 
   const [currentMinutes, setMinutes] = useState(settings.pomodoroTime);
-  const [duration, setDuration] = useState(settings.pomodoroTime);
+  const [duration, setDuration] = useState(settings.pomodoroTime * 60);
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [activeTask, setActiveTask] = useState("");
+  const [isActiveStatusButton, setIsActiveStatusButton] = useState(null);
+  const [isStatus, setIsStatus] = useState("pomodoro");
 
   function dataCount() {
     let newData = [];
-    let newActiveTAsk = [];
+    let newActiveTask = [];
 
     for (let i = 0; i < data.length; i++) {
       if (!data[i].status && data[i].currentSession !== data[i].totalSessions) {
         newData.push(data[i].key);
-        newActiveTAsk.push(data[i].text);
+        newActiveTask.push(data[i].text);
       }
-      if (newData.length > 0) {
-        newData.sort((a, b) => a - b);
-        newActiveTAsk.sort((a, b) => a - b);
-        setActiveTask(newActiveTAsk[0]);
-        return newData[0];
-      }
+    }
+
+    if (newData.length > 0) {
+      newData.sort((a, b) => a - b);
+      newActiveTask.sort((a, b) => a - b);
+      setActiveTask(newActiveTask[0]);
+      return newData[0];
     }
   }
 
@@ -57,9 +56,9 @@ export default function TimerMain() {
         ) {
           dispatch(setStatus(dataCount()));
         }
+      } else {
+        return "Veri Bulunamadi";
       }
-    } else {
-      return "Veri Bulunamadi";
     }
   };
 
@@ -74,28 +73,29 @@ export default function TimerMain() {
   }
 
   useEffect(() => {
-    // İlk girişte yapılması gerekenleri buraya yazın
     document.body.style.backgroundColor = colorSettings.focusColor;
-    // Birinci girişte yapılacak işlemleri bir kez yapmak için boş bir bağımlılık dizisi verin
-  }, []);
+  }, [colorSettings.focusColor]);
 
-  // Timer ayarlarını güncelleyen fonksiyon
   const setTimer = (item, isStatus) => {
     setMinutes(item);
     setDuration(item * 60);
     setSeconds(START_SECOND);
-
-    // Arka plan rengini ayarlayın
     colorSettingsChange(isStatus);
     document.body.style.transition = "0.5s";
   };
 
-  // Pomodoro, ShortBreak ve LongBreak butonlarını oluşturan fonksiyonlar
   const createTimerButtonHandler = (timerName) => () => {
     setTimer(settings[timerName], timerName);
+
+    if (timerName === "pomodoroTime") {
+      setIsActiveStatusButton("pomodoro");
+    } else if (timerName === "shortBreakTime") {
+      setIsActiveStatusButton("shortBreak");
+    } else if (timerName === "longBreakTime") {
+      setIsActiveStatusButton("longBreak");
+    }
   };
 
-  // Start, Stop, Resume ve Reset işlemlerini yöneten fonksiyonlar
   const startHandler = () => {
     setDuration(currentMinutes * 60 + currentSeconds);
     setIsRunning(true);
@@ -154,28 +154,61 @@ export default function TimerMain() {
     }
   };
 
-  // Timer'ı çalıştıran ve durduran useEffect
+  const isCatogeryStatus = (status) => {
+    let counter = settings.pomoCount; // 0
+    let longBreak = settings.longBreakInterval; // 2
+    let focusTime = 0;
+
+    let newCount = counter % longBreak;
+
+    if (newCount === longBreak) {
+      createTimerButtonHandler("longBreakTime")();
+      setIsActiveStatusButton("longBreak");
+      setIsStatus("pomodoro");
+    } else if (newCount !== longBreak - 1) {
+      createTimerButtonHandler("shortBreakTime")();
+      setIsActiveStatusButton("shortBreak");
+      setIsStatus("pomodoro");
+    }
+
+    if (status === "pomodoro") {
+      createTimerButtonHandler("pomodoroTime")();
+      setIsActiveStatusButton("pomodoro");
+    }
+
+    console.log("Counter   :", counter);
+    console.log("LongBreak :", longBreak);
+    console.log("FocusTime :", focusTime);
+    console.log("NewCount  :", newCount);
+    console.log(isActiveStatusButton);
+    console.log(status);
+
+    function test() {
+      return console.log("1");
+    }
+    test();
+  };
+
   useEffect(() => {
     if (isRunning) {
       let timer = duration;
-
       const interval = setInterval(() => {
-        if (--timer <= 1497) {
+        if (--timer <= 58) {
           resetTimer();
           dispatch(incrementPomoCount());
           countTask();
+          isCatogeryStatus(isStatus);
         } else {
           const minutes = parseInt(timer / 60, 10);
           const seconds = parseInt(timer % 60, 10);
-          setMinutes(minutes < 10 ? "0" + minutes : minutes);
-          setSeconds(seconds < 10 ? "0" + seconds : seconds);
+          setMinutes(String(minutes).padStart(2, "0"));
+          setSeconds(String(seconds).padStart(2, "0"));
         }
       }, 1000);
       return () => clearInterval(interval);
     }
   }, [duration, isRunning, data]);
 
-  // Pomodoro sayacını sıfırlayan fonksiyon
   const clearLocalStorage = () => {
     const text = "ALL TASK AND LOCAL STORAGE CLEAR ?";
     if (window.confirm(text)) {
@@ -193,33 +226,26 @@ export default function TimerMain() {
   return (
     <div className={TimerStyles.container}>
       <div className={TimerStyles.timer}>
-        {/* Status Button */}
         <div className={TimerStyles.button}>
           <TimerButton
+            actived={isActiveStatusButton}
             pomodoroBtn={createTimerButtonHandler("pomodoroTime")}
             shortBreakBtn={createTimerButtonHandler("shortBreakTime")}
             longBreakBtn={createTimerButtonHandler("longBreakTime")}
           />
         </div>
-        {/* Timer  */}
         <div className={TimerStyles.time}>
           {String(currentMinutes).padStart(2, "0")}:
           {String(currentSeconds).padStart(2, "0")}
         </div>
-        {/* Button */}
         <div className={TimerStyles.startResetButton}>
           {startResetButtonContent()}
         </div>
       </div>
-      {/* PomoCount */}
       <button className={TimerStyles.level} onClick={clearLocalStorage}>
         #{settings.pomoCount}
       </button>
-      <div className={TimerStyles.tasksLevel}>
-        {/* create data map function, status === true item.text */}
-
-        {activeTask}
-      </div>
+      <div className={TimerStyles.tasksLevel}>{activeTask}</div>
     </div>
   );
 }

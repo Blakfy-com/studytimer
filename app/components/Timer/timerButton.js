@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function TimerButton({
+  actived,
   pomodoroBtn,
   shortBreakBtn,
   longBreakBtn,
@@ -27,6 +28,12 @@ export default function TimerButton({
       clickName: longBreakBtn,
     },
   ];
+
+
+
+  useEffect(() => {
+    actived !== null ? setActiveButton(actived) : activeButton;
+  }, [actived, activeButton]);
 
   return (
     <>
