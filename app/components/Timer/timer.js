@@ -23,6 +23,9 @@ export default function TimerMain() {
   const [activeTask, setActiveTask] = useState("");
   const [isActiveStatusButton, setIsActiveStatusButton] = useState(null);
   const [isStatus, setStatus] = useState("shortBreak");
+  const [startButtonColor, setStartButtonColor] = useState(
+    colorSettings.focusColor
+  );
 
   function dataCount() {
     let newData = [];
@@ -89,10 +92,13 @@ export default function TimerMain() {
 
     if (timerName === "pomodoroTime") {
       setIsActiveStatusButton("pomodoro");
+      setStartButtonColor(colorSettings.focusColor);
     } else if (timerName === "shortBreakTime") {
       setIsActiveStatusButton("shortBreak");
+      setStartButtonColor(colorSettings.shortBreakColor);
     } else if (timerName === "longBreakTime") {
       setIsActiveStatusButton("longBreak");
+      setStartButtonColor(colorSettings.longBreakColor);
     }
   };
 
@@ -126,7 +132,7 @@ export default function TimerMain() {
         <StartButtons
           text="START"
           buttonClick={startHandler}
-          buttonColor={colorSettings.focusColor}
+          buttonColor={startButtonColor}
         />
       );
     } else if (isRunning) {
@@ -135,7 +141,7 @@ export default function TimerMain() {
           <StartButtons
             text="PAUSE"
             buttonClick={stopHandler}
-            buttonColor={colorSettings.focusColor}
+            buttonColor={startButtonColor}
           />
           <Nextbutton click={resetTimer} name="nextBtn" />
         </>
@@ -146,7 +152,7 @@ export default function TimerMain() {
           <StartButtons
             text="START"
             buttonClick={resumeHandler}
-            buttonColor={colorSettings.focusColor}
+            buttonColor={startButtonColor}
           />
           <Nextbutton click={resetTimer} name="nextBtn" />
         </>
