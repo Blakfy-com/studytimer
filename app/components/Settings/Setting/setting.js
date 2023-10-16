@@ -6,6 +6,7 @@ import LongBreakInterval from "./LongBreakInterval/longBreakInterval";
 import HeaderStyles from "../header.module.scss";
 import AudioSettings from "./AudioSettings/audiosettings";
 import ExitSvg from "../../icons/exit/exit";
+import ClearLocalStorage from "./ClearLocalStorage/clearLocalStorage";
 
 export default function Setting({ closeSetting, handleColorClick }) {
   const handleCloseClick = () => {
@@ -16,6 +17,7 @@ export default function Setting({ closeSetting, handleColorClick }) {
     window.location.reload(); // Page Reload
     windows.location.closeSetting(); // Setting Window Close
   };
+
   return (
     <div className={HeaderStyles.setting}>
       <div className={HeaderStyles.container}>
@@ -27,6 +29,7 @@ export default function Setting({ closeSetting, handleColorClick }) {
         <LongBreakInterval />
         <Themesetting handleButtonClick={handleColorClick} />
         <AudioSettings />
+        <ClearLocalStorage />
         <div className={HeaderStyles.modal}>
           <button onClick={handleCloseClick}>Close</button>
           <button onClick={handleReloadClick}>Save</button>

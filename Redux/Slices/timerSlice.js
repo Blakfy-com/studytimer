@@ -4,9 +4,9 @@ export const timerSlice = createSlice({
   name: "timerSetting",
   initialState: {
     settings: {
-      pomodoroTime: 1,
-      shortBreakTime: 1,
-      longBreakTime: 1,
+      pomodoroTime: 25,
+      shortBreakTime: 5,
+      longBreakTime: 10,
       pomoCount: 0,
       longBreakInterval: 4,
     },

@@ -224,7 +224,7 @@ export default function TimerMain() {
       let timer = duration;
       const interval = setInterval(() => {
         //! setInterval`in bitis suresi. TEST ASAMASINDA SUREYI BURADAN DEGISTIR
-        if (--timer <= 59) {
+        if (--timer <= 0) {
           // Timer Reset
           resetTimer();
           isCatogeryStatus(isStatus); // Task Count 0 != status ? Control Task Count

@@ -2,29 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Verilerin başlangıç durumunu tanımlayın
 const data = {
-  data: [
-    {
-      key: 1,
-      text: "Task 1",
-      currentSession: 0,
-      totalSessions: 2,
-      status: false,
-    },
-    {
-      key: 2,
-      text: "Task 2",
-      currentSession: 0,
-      totalSessions: 4,
-      status: false,
-    },
-    {
-      key: 3,
-      text: "Task 3",
-      currentSession: 0,
-      totalSessions: 2,
-      status: false,
-    },
-  ],
+  data: [],
 };
 
 // Veri dilimini oluşturun
