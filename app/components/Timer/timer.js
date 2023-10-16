@@ -21,7 +21,7 @@ export default function TimerMain() {
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
-  const [activeTask, setActiveTask] = useState("");
+  const [activeTask, setActiveTask] = useState(data[0].text);
   const [isActiveStatusButton, setIsActiveStatusButton] = useState(null);
   const [isStatus, setStatus] = useState("shortBreak");
   const [title, setTitle] = useState("Study Timerr");
@@ -126,6 +126,7 @@ export default function TimerMain() {
     setMinutes(settings.pomodoroTime);
     setSeconds(START_SECOND);
     setDuration(settings.pomodoroTime * 60);
+    setTitle("Study Timerr");
   };
 
   const startResetButtonContent = () => {
