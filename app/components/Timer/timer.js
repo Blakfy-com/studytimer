@@ -21,7 +21,12 @@ export default function TimerMain() {
   const [currentSeconds, setSeconds] = useState(START_SECOND);
   const [isStop, setIsStop] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
-  const [activeTask, setActiveTask] = useState(data[0].text);
+  // 'initialActiveTask' değeri 'data[0].text' olur, aksi halde 'undefined' olur.
+  const initialActiveTask =
+    data && data.length > 0 && data[0].text ? data[0].text : undefined;
+  // 'useState' hook'u, 'initialActiveTask' değerini 'activeTask' olarak ayarlar.
+  const [activeTask, setActiveTask] = useState(initialActiveTask);
+
   const [isActiveStatusButton, setIsActiveStatusButton] = useState(null);
   const [isStatus, setStatus] = useState("shortBreak");
   const [title, setTitle] = useState("Study Timerr");
@@ -219,7 +224,7 @@ export default function TimerMain() {
       let timer = duration;
       const interval = setInterval(() => {
         //! setInterval`in bitis suresi. TEST ASAMASINDA SUREYI BURADAN DEGISTIR
-        if (--timer <= 0) {
+        if (--timer <= 59) {
           // Timer Reset
           resetTimer();
           isCatogeryStatus(isStatus); // Task Count 0 != status ? Control Task Count
