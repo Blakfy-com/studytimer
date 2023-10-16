@@ -14,6 +14,7 @@ export default function Colorsetting({ closeColorSetting, selectedId }) {
     "#545764",
     "#9675B4",
     "#7D53A2",
+    "#E0B0FF",
   ];
 
   const handleClick = (btnColor) => {

@@ -7,7 +7,7 @@ $mainWidth: 500px;
   color: white;
 
   .timer {
-    background: hsla(100%, 100%, 100%, 0.1);
+    background-color: hsla(100%, 100%, 100%, 0.1); // OBS
     border-radius: 5px;
     display: flex;
     flex-direction: column;

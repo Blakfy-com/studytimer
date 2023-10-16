@@ -14,7 +14,7 @@ body {
 }
 
 .activeButton {
-  background-color: hsla(0, 0%, 0%, 0.15);
+  background: hsla(0, 0%, 80%, 0.4);
   border-radius: 3px;
 }
 .activeButton:active {

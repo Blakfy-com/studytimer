@@ -22,7 +22,7 @@ export default function TimerMain() {
   const [isRunning, setIsRunning] = useState(false);
   const [activeTask, setActiveTask] = useState("");
   const [isActiveStatusButton, setIsActiveStatusButton] = useState(null);
-  const [isStatus, setIsStatus] = useState("pomodoro");
+  const [isStatus, setStatus] = useState("shortBreak");
 
   function dataCount() {
     let newData = [];
@@ -156,49 +156,65 @@ export default function TimerMain() {
 
   const isCatogeryStatus = (status) => {
     let counter = settings.pomoCount; // 0
-    let longBreak = settings.longBreakInterval; // 2
+    let longBreak = settings.longBreakInterval; // 4
     let focusTime = 0;
 
-    let newCount = counter % longBreak;
+    let newCount = counter % longBreak; // 0 1 2 3 0 1 2 3 0
 
-    if (newCount === longBreak) {
-      createTimerButtonHandler("longBreakTime")();
-      setIsActiveStatusButton("longBreak");
-      setIsStatus("pomodoro");
-    } else if (newCount !== longBreak - 1) {
-      createTimerButtonHandler("shortBreakTime")();
-      setIsActiveStatusButton("shortBreak");
-      setIsStatus("pomodoro");
+    switch (status) {
+      case "pomodoro":
+        createTimerButtonHandler("pomodoroTime")();
+        setIsActiveStatusButton("pomodoro");
+        if (newCount < longBreak - 1) {
+          setStatus("shortBreak");
+        } else {
+          setStatus("longBreak");
+        }
+        if (settings.pomoCount === 0) {
+          dispatch(incrementPomoCount()); // Default Task Count Inc +1
+          countTask();
+        }
+        break;
+      case "shortBreak":
+        createTimerButtonHandler("shortBreakTime")();
+        setIsActiveStatusButton("shortBreak");
+        setStatus("pomodoro");
+
+        dispatch(incrementPomoCount()); // Default Task Count Inc +1
+        countTask();
+        break;
+      case "longBreak":
+        createTimerButtonHandler("longBreakTime")();
+        setIsActiveStatusButton("longBreak");
+        setStatus("pomodoro");
+
+        dispatch(incrementPomoCount()); // Default Task Count Inc +1
+        countTask();
+        break;
     }
 
-    if (status === "pomodoro") {
-      createTimerButtonHandler("pomodoroTime")();
-      setIsActiveStatusButton("pomodoro");
-    }
+    // console.log("Counter   :", counter);
+    // console.log("LongBreak :", longBreak);
+    // console.log("NewCount  :", newCount);
+    // console.log("FocusTime :", focusTime);
+    // console.log("isActiveStatusButton", isActiveStatusButton);
+    // console.log("status", status);
 
-    console.log("Counter   :", counter);
-    console.log("LongBreak :", longBreak);
-    console.log("FocusTime :", focusTime);
-    console.log("NewCount  :", newCount);
-    console.log(isActiveStatusButton);
-    console.log(status);
-
-    function test() {
-      return console.log("1");
-    }
-    test();
+    // createTimerButtonHandler("shortBreakTime")();
+    // setIsActiveStatusButton("shortBreak");
+    // setStatus("pomodoro");
   };
 
   useEffect(() => {
     if (isRunning) {
       let timer = duration;
       const interval = setInterval(() => {
-        if (--timer <= 58) {
+        if (--timer <= 59) {
+          // Timer Reset
           resetTimer();
-          dispatch(incrementPomoCount());
-          countTask();
-          isCatogeryStatus(isStatus);
+          isCatogeryStatus(isStatus); // Task Count 0 != status ? Control Task Count
         } else {
+          // Timer Function
           const minutes = parseInt(timer / 60, 10);
           const seconds = parseInt(timer % 60, 10);
           setMinutes(String(minutes).padStart(2, "0"));
