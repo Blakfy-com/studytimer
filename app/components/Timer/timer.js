@@ -23,7 +23,7 @@ export default function TimerMain() {
   const [isRunning, setIsRunning] = useState(false);
   // 'initialActiveTask' değeri 'data[0].text' olur, aksi halde 'undefined' olur.
   const initialActiveTask =
-    data && data.length > 0 && data[0].text ? data[0].text : undefined;
+    data && data.length > 0 && data[0].text ? data[0].text : "Study Timerr";
   // 'useState' hook'u, 'initialActiveTask' değerini 'activeTask' olarak ayarlar.
   const [activeTask, setActiveTask] = useState(initialActiveTask);
 
