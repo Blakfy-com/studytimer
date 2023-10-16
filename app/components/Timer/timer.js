@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useState, useEffect } from "react";
 import TimerStyles from "./timer.module.scss";
 import TimerButton from "./timerButton";
@@ -5,7 +6,7 @@ import StartButtons from "./startButtons";
 import Nextbutton from "./nextButton";
 import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incrementPomoCount } from "@/Redux/Slices/timerSlice";
-import { incTaskCurrent, setStatus } from "@/Redux/Slices/taskSlice";
+import { incTaskCurrent } from "@/Redux/Slices/taskSlice";
 
 const START_SECOND = 0;
 
@@ -23,6 +24,7 @@ export default function TimerMain() {
   const [activeTask, setActiveTask] = useState("");
   const [isActiveStatusButton, setIsActiveStatusButton] = useState(null);
   const [isStatus, setStatus] = useState("shortBreak");
+  const [title, setTitle] = useState("Study Timerr");
   const [startButtonColor, setStartButtonColor] = useState(
     colorSettings.focusColor
   );
@@ -215,7 +217,8 @@ export default function TimerMain() {
     if (isRunning) {
       let timer = duration;
       const interval = setInterval(() => {
-        if (--timer <= 59) {
+        //! setInterval`in bitis suresi. TEST ASAMASINDA SUREYI BURADAN DEGISTIR
+        if (--timer <= 0) {
           // Timer Reset
           resetTimer();
           isCatogeryStatus(isStatus); // Task Count 0 != status ? Control Task Count
@@ -225,11 +228,16 @@ export default function TimerMain() {
           const seconds = parseInt(timer % 60, 10);
           setMinutes(String(minutes).padStart(2, "0"));
           setSeconds(String(seconds).padStart(2, "0"));
+          setTitle(`${activeTask} ${minutes}:${seconds}`);
         }
       }, 1000);
       return () => clearInterval(interval);
     }
   }, [duration, isRunning, data]);
+
+  useEffect(() => {
+    document.title = title; // Bu kısımda başlığı güncelliyoruz.
+  }, [title]);
 
   const clearLocalStorage = () => {
     const text = "ALL TASK AND LOCAL STORAGE CLEAR ?";
@@ -246,28 +254,30 @@ export default function TimerMain() {
   };
 
   return (
-    <div className={TimerStyles.container}>
-      <div className={TimerStyles.timer}>
-        <div className={TimerStyles.button}>
-          <TimerButton
-            actived={isActiveStatusButton}
-            pomodoroBtn={createTimerButtonHandler("pomodoroTime")}
-            shortBreakBtn={createTimerButtonHandler("shortBreakTime")}
-            longBreakBtn={createTimerButtonHandler("longBreakTime")}
-          />
+    <>
+      <div className={TimerStyles.container}>
+        <div className={TimerStyles.timer}>
+          <div className={TimerStyles.button}>
+            <TimerButton
+              actived={isActiveStatusButton}
+              pomodoroBtn={createTimerButtonHandler("pomodoroTime")}
+              shortBreakBtn={createTimerButtonHandler("shortBreakTime")}
+              longBreakBtn={createTimerButtonHandler("longBreakTime")}
+            />
+          </div>
+          <div className={TimerStyles.time}>
+            {String(currentMinutes).padStart(2, "0")}:
+            {String(currentSeconds).padStart(2, "0")}
+          </div>
+          <div className={TimerStyles.startResetButton}>
+            {startResetButtonContent()}
+          </div>
         </div>
-        <div className={TimerStyles.time}>
-          {String(currentMinutes).padStart(2, "0")}:
-          {String(currentSeconds).padStart(2, "0")}
-        </div>
-        <div className={TimerStyles.startResetButton}>
-          {startResetButtonContent()}
-        </div>
+        <button className={TimerStyles.level} onClick={clearLocalStorage}>
+          #{settings.pomoCount}
+        </button>
+        <div className={TimerStyles.tasksLevel}>{activeTask}</div>
       </div>
-      <button className={TimerStyles.level} onClick={clearLocalStorage}>
-        #{settings.pomoCount}
-      </button>
-      <div className={TimerStyles.tasksLevel}>{activeTask}</div>
-    </div>
+    </>
   );
 }
