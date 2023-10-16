@@ -4,7 +4,7 @@ import "./globals.css";
 import { Provider } from "react-redux";
 import store from "../Redux/store";
 
-export const metadata = {
+const metadata = {
   title: {
     default: "Study Timerr",
     template: "%s | Pomodoro Timer",
