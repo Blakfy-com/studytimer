@@ -13,6 +13,20 @@ export default function Setting({ closeSetting, handleColorClick }) {
     closeSetting(); // Setting Window Close
   };
 
+  const smile = () => {
+    const isTurkish = confirm("Turkish => Yes : English => No");
+
+    if (isTurkish) {
+      alert(
+        "Maalesef 'kapat' işlevini henüz ekleyemedik, bu yüzden her değişiklik kaydediliyor. Ne diyebiliriz ki, yazılım dünyası da bizi bazen şaşırtıyor!"
+      );
+    } else {
+      alert(
+        "Sorry for the inconvenience, we haven't added the 'close' function yet, so every change you make is being recorded. Well, what can we say, the software world sometimes surprises us too!"
+      );
+    }
+  };
+
   const handleReloadClick = () => {
     window.location.reload(); // Page Reload
     windows.location.closeSetting(); // Setting Window Close
@@ -31,7 +45,12 @@ export default function Setting({ closeSetting, handleColorClick }) {
         <AudioSettings />
         <ClearLocalStorage />
         <div className={HeaderStyles.modal}>
-          <button onClick={handleCloseClick}>Close</button>
+          <button
+            onClick={() => {
+              handleCloseClick(), smile();
+            }}>
+            Save
+          </button>
           <button onClick={handleReloadClick}>Save</button>
         </div>
       </div>

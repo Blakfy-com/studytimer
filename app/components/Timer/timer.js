@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { useState, useEffect } from "react";
 import TimerStyles from "./timer.module.scss";
 import TimerButton from "./timerButton";
@@ -8,8 +7,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { resetPomoCount, incrementPomoCount } from "@/Redux/Slices/timerSlice";
 import { incTaskCurrent } from "@/Redux/Slices/taskSlice";
 
-const START_SECOND = 0;
-
 export default function TimerMain() {
   const dispatch = useDispatch();
   const { settings } = useSelector((state) => state.timerSetting);
@@ -18,7 +15,8 @@ export default function TimerMain() {
 
   const [currentMinutes, setMinutes] = useState(settings.pomodoroTime);
   const [duration, setDuration] = useState(settings.pomodoroTime * 60);
-  const [currentSeconds, setSeconds] = useState(START_SECOND);
+  const [currentSeconds, setSeconds] = useState(0);
+
   const [isStop, setIsStop] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   // 'initialActiveTask' değeri 'data[0].text' olur, aksi halde 'undefined' olur.
@@ -27,12 +25,14 @@ export default function TimerMain() {
   // 'useState' hook'u, 'initialActiveTask' değerini 'activeTask' olarak ayarlar.
   const [activeTask, setActiveTask] = useState(initialActiveTask);
 
-  const [isActiveStatusButton, setIsActiveStatusButton] = useState(null);
+  const [isActiveStatusButton, setIsActiveStatusButton] = useState("pomodoro");
   const [isStatus, setStatus] = useState("shortBreak");
   const [title, setTitle] = useState("Study Timerr");
   const [startButtonColor, setStartButtonColor] = useState(
     colorSettings.focusColor
   );
+
+  const [resetStatusName, setResetStatusName] = useState("pomodoroTime");
 
   function dataCount() {
     let newData = [];
@@ -82,14 +82,10 @@ export default function TimerMain() {
       colorMap[status] || colorSettings.focusColor;
   }
 
-  useEffect(() => {
-    document.body.style.backgroundColor = colorSettings.focusColor;
-  }, [colorSettings.focusColor]);
-
   const setTimer = (item, isStatus) => {
     setMinutes(item);
     setDuration(item * 60);
-    setSeconds(START_SECOND);
+    setSeconds(0);
     colorSettingsChange(isStatus);
     document.body.style.transition = "0.5s";
   };
@@ -100,12 +96,15 @@ export default function TimerMain() {
     if (timerName === "pomodoroTime") {
       setIsActiveStatusButton("pomodoro");
       setStartButtonColor(colorSettings.focusColor);
+      setResetStatusName("pomodoroTime");
     } else if (timerName === "shortBreakTime") {
       setIsActiveStatusButton("shortBreak");
       setStartButtonColor(colorSettings.shortBreakColor);
+      setResetStatusName("shortBreakTime");
     } else if (timerName === "longBreakTime") {
       setIsActiveStatusButton("longBreak");
       setStartButtonColor(colorSettings.longBreakColor);
+      setResetStatusName("longBreakTime");
     }
   };
 
@@ -120,18 +119,29 @@ export default function TimerMain() {
   };
 
   const resumeHandler = () => {
-    let newDuration = currentMinutes * 60 + currentSeconds;
+    let newDuration = duration;
+    console.log(newDuration);
     setDuration(newDuration);
     setIsRunning(true);
     setIsStop(false);
   };
 
   const resetTimer = () => {
-    setIsRunning(false);
-    setMinutes(settings.pomodoroTime);
-    setSeconds(START_SECOND);
-    setDuration(settings.pomodoroTime * 60);
     setTitle("Study Timerr");
+    switch (resetStatusName) {
+      case "pomodoroTime":
+        setMinutes(settings.pomodoroTime);
+        break;
+      case "shortBreakTime":
+        setMinutes(settings.shortBreakTime);
+        break;
+      case "longBreakTime":
+        setMinutes(settings.longBreakTime);
+        break;
+    }
+    setIsRunning(false); // Surenin Calismasini durdurur.
+    setIsStop(false); // Sifirlama Buttonunu gizler.
+    setSeconds(0);
   };
 
   const startResetButtonContent = () => {
@@ -171,8 +181,6 @@ export default function TimerMain() {
   const isCatogeryStatus = (status) => {
     let counter = settings.pomoCount; // 0
     let longBreak = settings.longBreakInterval; // 4
-    let focusTime = 0;
-
     let newCount = counter % longBreak; // 0 1 2 3 0 1 2 3 0
 
     switch (status) {
@@ -193,7 +201,6 @@ export default function TimerMain() {
         createTimerButtonHandler("shortBreakTime")();
         setIsActiveStatusButton("shortBreak");
         setStatus("pomodoro");
-
         dispatch(incrementPomoCount()); // Default Task Count Inc +1
         countTask();
         break;
@@ -201,22 +208,10 @@ export default function TimerMain() {
         createTimerButtonHandler("longBreakTime")();
         setIsActiveStatusButton("longBreak");
         setStatus("pomodoro");
-
         dispatch(incrementPomoCount()); // Default Task Count Inc +1
         countTask();
         break;
     }
-
-    // console.log("Counter   :", counter);
-    // console.log("LongBreak :", longBreak);
-    // console.log("NewCount  :", newCount);
-    // console.log("FocusTime :", focusTime);
-    // console.log("isActiveStatusButton", isActiveStatusButton);
-    // console.log("status", status);
-
-    // createTimerButtonHandler("shortBreakTime")();
-    // setIsActiveStatusButton("shortBreak");
-    // setStatus("pomodoro");
   };
 
   useEffect(() => {
@@ -232,11 +227,12 @@ export default function TimerMain() {
           // Timer Function
           const minutes = parseInt(timer / 60, 10);
           const seconds = parseInt(timer % 60, 10);
+          setDuration(timer);
           setMinutes(String(minutes).padStart(2, "0"));
           setSeconds(String(seconds).padStart(2, "0"));
           setTitle(`${activeTask} ${minutes}:${seconds}`);
         }
-      }, 1000);
+      }, 1);
       return () => clearInterval(interval);
     }
   }, [duration, isRunning, data]);
@@ -244,6 +240,10 @@ export default function TimerMain() {
   useEffect(() => {
     document.title = title; // Bu kısımda başlığı güncelliyoruz.
   }, [title]);
+
+  useEffect(() => {
+    document.body.style.backgroundColor = colorSettings.focusColor;
+  }, [colorSettings.focusColor]);
 
   const clearLocalStorage = () => {
     const text = "ALL TASK AND LOCAL STORAGE CLEAR ?";
