@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { resetPomoCount } from "@/Redux/Slices/timerSlice";
+import HeaderStyles from "../../header.module.scss";
 
 export default function ClearLocalStorage() {
   const dispatch = useDispatch();
@@ -33,10 +34,9 @@ export default function ClearLocalStorage() {
   };
 
   return (
-    <div className="flex justify-between items-center ml-3 mr-4 opacity-[0.8]">
+    <div className={`${HeaderStyles.localStorageClear}`}>
       <p>Clear Local Storage</p>
       <button
-        className="h-[50px] w-[100px] ml-10 rounded-md hover:opacity-[0.7] hover:cursor-pointer"
         onClick={clearLocalStorage}>
         Submit
       </button>

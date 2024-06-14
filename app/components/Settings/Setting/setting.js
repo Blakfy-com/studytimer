@@ -49,7 +49,7 @@ export default function Setting({ closeSetting, handleColorClick }) {
             onClick={() => {
               handleCloseClick(), smile();
             }}>
-            Save
+            Close
           </button>
           <button onClick={handleReloadClick}>Save</button>
         </div>

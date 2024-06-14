@@ -1,75 +1,68 @@
 import React, { useState, useEffect } from "react";
-import { useSound } from 'use-sound';
-import HeaderStyles from "../../header.module.scss";
+import { playSound, stopSound, SOUND_MAP } from "./playAudio";
+import AudioCss from "../../header.module.scss";
 
-const AudioPage = () => {
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [playAlarm, { stop: stopAlarm }] = useSound('/Sound/alarm.mp3');
-  const [playClick, { stop: stopClick }] = useSound('/Sound/church-bell.mp3');
-  const [playCopperBell, { stop: stopCopperBell }] = useSound('/Sound/copper-bell.mp3');
-  const [volume, setVolume] = useState(1);
-  const [currentSound, setCurrentSound] = useState(null);
+const Audiosettings = () => {
+  const storedVolume = localStorage.getItem("selectedVolume");
+  const storedSound = localStorage.getItem("selectedSound");
 
-  const finalVolume = muted ? 0 : volume ** 2;
-
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
-  };
-
-  const handleSoundButtonClick = (playFunction, stopFunction) => {
-    if (stopFunction) {
-      stopFunction();
-    }
-
-    setCurrentSound(() => playFunction);
-  };
+  const [volume, setVolume] = useState(storedVolume || 50);
+  const [selectedSound, setSelectedSound] = useState(storedSound || "alarm");
 
   useEffect(() => {
-    if (currentSound) {
-      currentSound({ volume: finalVolume });
-    }
-  }, [currentSound, finalVolume]);
+    // Herhangi bir değişiklikte localStorage'a kaydet
+    localStorage.setItem("selectedVolume", volume);
+  }, [volume]);
 
-  const stopAllSounds = () => {
-    stopAlarm();
-    stopClick();
-    stopCopperBell();
+  useEffect(() => {
+    // Herhangi bir değişiklikte localStorage'a kaydet
+    localStorage.setItem("selectedSound", selectedSound);
+  }, [selectedSound]);
+
+  const handleVolumeChange = (event) => {
+    const selectedVolume = event.target.value;
+    setVolume(selectedVolume);
+  };
+
+  const handleSoundChange = (event) => {
+    const selectedSound = event.target.value;
+    setSelectedSound(selectedSound);
+  };
+
+  const playSoundDemo = () => {
+    stopSound(); // Durdur ve sıfırla
+    playSound(selectedSound, volume);
   };
 
   return (
-    <div className={HeaderStyles.audiosettings}>
-    <div className="dropdown">
-      <p>Sound</p>
-      <br></br>
-      <button onClick={toggleDropdown} className="dropbtn">
-        Sound
-      </button>
-      {dropdownVisible && (
-        <div id="myDropdown" className="dropdown-content">
-          <button onClick={() => handleSoundButtonClick(playAlarm, stopAllSounds)}>Alarm</button>
-          <br></br>
-          <button onClick={() => handleSoundButtonClick(playClick, stopAllSounds)}>Church Bell</button>
-          <br></br>
-          <button onClick={() => handleSoundButtonClick(playCopperBell, stopAllSounds)}>Copper Bell</button>
-        </div>  
-      )}
-      <main>
-        <section>
-          <input
-            type="range"
-            min={0}
-            max={1}
-            step={0.02}
-            value={volume}
-            onChange={(event) => {
-              setVolume(event.target.valueAsNumber);
-            }}
-          />
-        </section>
-      </main>
+    <div className={AudioCss.audiosettings}>
+      <h3>Audio Setting</h3>
+      <div>
+        <select value={selectedSound} onChange={handleSoundChange}>
+          {Object.keys(SOUND_MAP).map((soundKey) => (
+            <option key={soundKey} value={soundKey}>
+              {SOUND_MAP[soundKey].name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <span>{`${volume}%`}</span>
+        <input
+          type="range"
+          id="volumeControl"
+          min="0"
+          max="100"
+          step="1"
+          value={volume}
+          onChange={handleVolumeChange}
+        />
+      </div>
+      <div>
+        <button onClick={playSoundDemo}>Play Sound Test</button>
+      </div>
     </div>
-  </div>
   );
 };
 
-export default AudioPage;
+export default Audiosettings;

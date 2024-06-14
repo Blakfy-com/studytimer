@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { addData } from "@/Redux/Slices/taskSlice";
 import Image from "next/image";
 
-export default function NewTask({ cancelTask, savesTask }) {
+export default function NewTask(props) {
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [isText, setIsText] = useState("");
@@ -34,7 +34,7 @@ export default function NewTask({ cancelTask, savesTask }) {
 
     if (todo.text.length >= 1) {
       dispatch(addData(todo));
-      savesTask();
+      props.savesTask();
     }
   };
 
@@ -69,28 +69,26 @@ export default function NewTask({ cancelTask, savesTask }) {
           <div className={Task.number}>{count}</div>
           {/* UP ARROW */}
           <button name="up" onClick={handleArrow}>
-            U
-            {/* <Image
-              src="/up-arrow.png"
+            <Image
+              src="/arrow-up-solid.svg"
               width={20}
               height={20}
               alt="uparrow"
               name="up"
               onClick={handleArrow}
-            /> */}
+            />
           </button>
 
           {/*  DOWN ARROW */}
           <button name="down" onClick={handleArrow}>
-            D
-            {/* <Image
-              src="/down-arrow.png"
+            <Image
+              src="/arrow-down-solid.svg"
               width={20}
               height={20}
               alt="downarrow"
               name="down"
               onClick={handleArrow}
-            /> */}
+            />
           </button>
         </div>
       </div>
@@ -98,13 +96,21 @@ export default function NewTask({ cancelTask, savesTask }) {
       {/* DELETE OR SAVE AND CANCEL */}
       <div className={Task.saveOrcancel}>
         <button className={Task.delete} id="delete">
-          Delete
+          <Image
+            src="/trash-alt.svg"
+            width={25}
+            height={25}
+            alt="delete"
+            name="delete"
+            onClick={() => props.cancelTask()}
+          />
         </button>
         <div>
           <button
             className={Task.cancel}
             id="cancel"
-            onClick={() => cancelTask()}>
+            onClick={() => props.cancelTask()}
+          >
             Cancel
           </button>
           <button className={Task.save} id="save" onClick={saveTask}>

@@ -1,17 +1,36 @@
-$whiteColor: white;
-$lineColor: rgba(0, 0, 0, 0.3);
-$inputBgColor: rgba(0, 0, 0, 0.1);
-$buttonColorBlack: rgba(10, 10, 10, 0.9);
-$buttonColorBlackHover: rgba(0, 0, 0, 0.8);
-$inputShadow: 2px 2px rgba(0, 0, 0, 0.2);
+/* Renk Değişkenleri */
+$whiteColor: white; /* Sayfa arka planında kullanılan beyaz renk */
+$lineColor: rgba(0, 0, 0, 0.3); /* Çizgi renk ve opaklık değeri */
+$inputBgColor: rgba(
+  0,
+  0,
+  0,
+  0.07
+); /* Input arka plan rengi ve opaklık değeri */
+$buttonColorBlack: rgba(
+  10,
+  10,
+  10,
+  0.9
+); /* Siyah renkli buton arka plan rengi ve opaklık değeri */
+$buttonColorBlackHover: rgba(
+  0,
+  0,
+  0,
+  0.8
+); /* Siyah renkli buton hover durumunda arka plan rengi ve opaklık değeri */
+$inputShadow: 2px 2px rgba(0, 0, 0, 0.2); /* Input kutusuna gölge efekti */
 
+/* Ayarlar Bileşeni */
 .settings {
+  /* Genel stil ayarları */
   width: 500px;
   height: 100%;
   margin: 5px 0 25px 0;
   border-bottom: 1px solid $whiteColor;
   opacity: 0.8;
 
+  /* İlk içerik bölümü */
   div:nth-child(1) {
     display: flex;
     justify-content: space-between;
@@ -20,6 +39,7 @@ $inputShadow: 2px 2px rgba(0, 0, 0, 0.2);
     padding: 10px;
     color: $whiteColor;
 
+    /* Link stil ayarları */
     a {
       font-size: 20px;
       opacity: 0.9;
@@ -27,6 +47,8 @@ $inputShadow: 2px 2px rgba(0, 0, 0, 0.2);
     a:hover {
       opacity: 1;
     }
+
+    /* Buton stil ayarları */
     div {
       button {
         height: 30px;
@@ -43,10 +65,12 @@ $inputShadow: 2px 2px rgba(0, 0, 0, 0.2);
   }
 }
 
+/* Ayar Bileşeni */
 .setting {
+  /* Stil ve konum ayarları */
   z-index: 1;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: fixed;
   display: flex;
   align-items: center;
@@ -55,13 +79,15 @@ $inputShadow: 2px 2px rgba(0, 0, 0, 0.2);
   -webkit-box-pack: center;
   background-color: rgba(0, 0, 0, 0.5);
 
+  /* İçerik container ayarları */
   .container {
     background-color: $whiteColor;
-    width: 400px;
-    padding: 0 1rem;
-    border-radius: 10px;
+    width: 450px;
+    border-radius: 3px;
     box-shadow: $inputShadow;
+    padding: 20px;
 
+    /* Başlık bölümü */
     .headerTitle {
       display: flex;
       justify-content: space-between;
@@ -81,27 +107,31 @@ $inputShadow: 2px 2px rgba(0, 0, 0, 0.2);
       }
     }
 
+    /* Zaman ayarları bölümü */
     .timerSettting {
+      /* Stil ve konum ayarları */
       display: flex;
       justify-content: space-between;
+      border-bottom: 1px solid $lineColor;
       padding: 10px;
+
+      /* İçerik bölümleri */
       div {
         text-align: center;
         p {
           opacity: 0.7;
         }
         input {
+          /* Input kutu ayarları */
           padding: 0.5rem;
           opacity: 0.7;
           width: 80px;
           height: 40px;
           background-color: $inputBgColor;
           border-radius: 5px;
-          box-shadow: $inputShadow;
           &:focus {
             outline: none;
           }
-          // input tiklandiginda artirmak ve azaltmak icin kullanilan butonlari tasarla.
           &::-webkit-outer-spin-button,
           &::-webkit-inner-spin-button {
             height: 30px;
@@ -110,22 +140,27 @@ $inputShadow: 2px 2px rgba(0, 0, 0, 0.2);
       }
     }
 
+    /* Uzun ara verme süresi ayarı bölümü */
     .longBreakInterval {
+      /* Stil ve konum ayarları */
       display: flex;
       justify-content: space-between;
-      padding: 10px 10px 10px 5px;
+      border-bottom: 1px solid $lineColor;
+      padding: 10px;
+
+      /* İçerik bölümleri */
       p {
         opacity: 0.7;
-        padding: 0.5rem;
+        padding: 0.5rem 0;
       }
       input {
+        /* Input kutu ayarları */
         padding: 0.5rem;
         opacity: 0.7;
         width: 80px;
         height: 40px;
         background-color: $inputBgColor;
         border-radius: 5px;
-        box-shadow: $inputShadow;
         &:focus {
           outline: none;
         }
@@ -136,13 +171,17 @@ $inputShadow: 2px 2px rgba(0, 0, 0, 0.2);
       }
     }
 
+    /* Tema ayarı bölümü */
     .themesetting {
+      /* Stil ve konum ayarları */
       display: flex;
       flex-direction: column;
-      opacity: 0.8;
+      border-bottom: 1px solid $lineColor;
       padding: 10px;
+
+      /* İçerik bölümleri */
       p {
-        color: black;
+        opacity: 0.7;
         padding: 10px 0;
       }
       div {
@@ -151,60 +190,152 @@ $inputShadow: 2px 2px rgba(0, 0, 0, 0.2);
         align-items: center;
         height: 30px;
 
+        /* İç içe geçmiş div bölümleri */
         div {
           width: 100px;
           height: 25px;
           button {
+            /* Buton stil ayarları */
             width: 30px;
             height: 30px;
             border-radius: 3px;
-            box-shadow: $inputShadow;
           }
         }
       }
     }
 
+    /* Ses ayarı bölümü */
     .audiosettings {
-      display: flex;
-      flex-direction: column;
-      opacity: 0.8;
+      /* Stil ve konum ayarları */
+      border-bottom: 1px solid $lineColor;
       padding: 10px;
-      p {
-        color;
+
+      /* İçerik bölümleri */
+      h3:nth-child(1) {
+        padding: 5px 0px;
+        opacity: 0.7;
+      }
+      /* Ses değiştirme bölümü */
+      div:nth-child(2) {
+        display: flex;
+        justify-content: flex-end;
+        select {
+          /* Select kutusu ayarları */
+          background-color: $inputBgColor;
+          padding: 10px 0px;
+          width: 170px;
+          border-radius: 5px;
+          opacity: 0.8;
+        }
+      }
+      /* Ses düzeyi bölümü */
+      div:nth-child(3) {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 10px 0px;
+        opacity: 0.8;
+        input {
+          /* Input kutu ayarları */
+          border-radius: 25px;
+          width: 125px;
+          height: 30px;
+          margin: 0 10px;
+        }
+      }
+      /* Sesi sıfırlama bölümü */
+      div:nth-child(4) {
+        display: flex;
+        justify-content: flex-end;
+        button {
+          /* Buton stil ayarları */
+          background-color: $buttonColorBlack;
+          color: $whiteColor;
+          margin: 0 10px;
+          width: 130px;
+          height: 30px;
+          border-radius: 3px;
+          font-size: 14px;
+        }
+        button:hover {
+          /* Buton hover durumunda stil ayarları */
+          background-color: $buttonColorBlack;
+          border-radius: 3px;
+          color: $whiteColor;
+          cursor: pointer;
+          opacity: 0.8;
+          transition: 0.3s;
+        }
       }
     }
 
+    /* Modal bölümü */
     .modal {
+      /* Stil ve konum ayarları */
       height: 50px;
       display: flex;
       justify-content: flex-end;
-      margin: 10px;
       button {
+        /* Buton stil ayarları */
         margin: 0 20px;
-        width: 100px;
-        height: 50px;
+        width: 80px;
+        height: 30px;
+        font-size: 14px;
       }
       button:nth-child(1) {
+        /* İlk buton stil ayarları */
         // background-color: $buttonColorBlack;
         // color: $whiteColor;
         border-radius: 5px;
       }
       button:nth-child(2) {
+        /* İkinci buton stil ayarları */
         background-color: $buttonColorBlack;
-        border-radius: 5px;
+        border-radius: 3px;
         color: $whiteColor;
         cursor: pointer;
       }
       button:nth-child(1):hover,
       button:nth-child(2):hover {
+        /* Buton hover durumunda stil ayarları */
         opacity: 0.8;
         transition: 0.3s;
+      }
+    }
+
+    /* Local Storage Temizleme Bölümü */
+    .localStorageClear {
+      /* Stil ve konum ayarları */
+      height: 50px;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      justify-content: space-between;
+      p {
+        opacity: 0.7;
+      }
+      button {
+        /* Buton stil ayarları */
+        width: 80px;
+        height: 30px;
+        border-radius: 3px;
+        background-color: $buttonColorBlack;
+        color: $whiteColor;
+        margin-right: 10px;
+        font-size: 14px;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+          transition: 0.3s;
+        }
       }
     }
   }
 }
 
+/* Renk Ayarı Bileşeni */
 .colorSetting {
+  /* Stil ve konum ayarları */
   z-index: 1;
   width: 100%;
   height: 100vh;
@@ -216,32 +347,40 @@ $inputShadow: 2px 2px rgba(0, 0, 0, 0.2);
   -webkit-box-pack: center;
   background-color: rgba(0, 0, 0, 0.5);
 
+  /* İçerik container ayarları */
   .container {
     background-color: $whiteColor;
     width: 400px;
     border-radius: 10px;
-    box-shadow: $inputShadow;
+    // box-shadow: $inputShadow;
 
+    /* Başlık bölümü */
     div:nth-child(1) {
+      /* Stil ve konum ayarları */
       display: flex;
       flex-direction: column;
       padding: 10px;
       border-bottom: 1px solid $lineColor;
       p {
+        /* Stil ayarları */
         text-align: center;
         opacity: 0.8;
       }
     }
 
+    /* Renk seçimi bölümü */
     div:nth-child(2) {
+      /* Stil ve konum ayarları */
       text-align: center;
       margin: 10px;
       button {
+        /* Buton stil ayarları */
         margin: 10px;
         width: 80px;
         height: 80px;
         border-radius: 3px;
         &:hover {
+          /* Buton hover durumunda stil ayarları */
           opacity: 0.9;
           box-shadow: none;
           transition: all 0.5s;
@@ -251,14 +390,23 @@ $inputShadow: 2px 2px rgba(0, 0, 0, 0.2);
   }
 }
 
+/* Ekran boyutlarına göre medya sorguları */
 @media screen and (max-width: 510px) {
   .settings {
+    /* Stil ve boyut ayarları */
     width: 400px;
+  }
+
+  .setting {
+    .container {
+      margin: 25px;
+    }
   }
 }
 
 @media screen and (max-width: 400px) {
   .settings {
+    /* Stil ve boyut ayarları */
     width: 350px;
   }
 }

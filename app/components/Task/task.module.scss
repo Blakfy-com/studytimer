@@ -146,6 +146,12 @@ $mainBorder: 5px;
     justify-content: space-between;
     align-items: center;
 
+    .delete {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     button {
       opacity: 0.7;
       width: 100px;

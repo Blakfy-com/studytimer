@@ -4,8 +4,8 @@ export const colorSlice = createSlice({
   name: "colorSettings",
   initialState: {
     colorSettings: {
-      focusColor: "#545764",
-      shortBreakColor: "#7D53A2",
+      focusColor: "#7D53A2",
+      shortBreakColor: "#545764",
       longBreakColor: "#af4e91",
     },
   },

@@ -3,6 +3,7 @@ import NewTask from "./newTask";
 import Task from "./task";
 import EndTask from "./Endtask";
 import AddTask from "./addTask";
+import EditTask from "./editTask";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteData } from "@/Redux/Slices/taskSlice";
 import TaskCss from "./task.module.scss";
@@ -11,6 +12,8 @@ export default function TodoList() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.dataAnalysis);
   const [isView, setIsView] = useState(false);
+  const [isEditTask, setEditTask] = useState(false);
+  const [updateText, setUpdateText] = useState("");
 
   const openNewTask = () => {
     setIsView(!isView);
@@ -18,6 +21,12 @@ export default function TodoList() {
 
   const removeData = (itemKey) => {
     dispatch(deleteData(itemKey));
+  };
+
+  const openEditTask = (taskId, taskText) => {
+    setEditTask(!isEditTask);
+    setUpdateText(taskId);
+    console.log("Edit Task Clicked", taskId);
   };
 
   return (
@@ -31,6 +40,7 @@ export default function TodoList() {
               text={todo.text}
               sessionCount={todo.totalSessions}
               activeSession={todo.currentSession}
+              editTaskClick={openEditTask}
               //** deleteItem fonksiyonu redux uzerinden bagli oldugu key bakilarak silme islemi calisiyor. */
               deleteItem={() => removeData(todo.key)}
             />

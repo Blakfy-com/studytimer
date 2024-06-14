@@ -10,9 +10,14 @@ export default function Task({
   activeSession,
   deleteItem,
   taskId,
+  editTaskClick,
 }) {
   return (
-    <div id={taskId} className={TaskCss.tasks}>
+    <div
+      onClick={() => editTaskClick(taskId)}
+      id={taskId}
+      className={TaskCss.tasks}
+    >
       <div className={TaskCss.tasksText}>
         <VerifySVG />
         <p>{text}</p>
